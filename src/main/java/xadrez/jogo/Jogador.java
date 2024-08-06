@@ -1,0 +1,78 @@
+package main.java.xadrez.jogo;
+
+import main.java.xadrez.pecas.interfacePeca.Peca;
+import main.java.xadrez.tabuleiro.Casa;
+
+public class Jogador {
+
+    private String nome;
+    private Casa.Cor cor;
+    private Peca[] pecasAtivas; // Vetor para armazenar as peças ativas
+    private Peca[] pecasCapturadas; // Vetor para armazenar as peças capturadas
+    private int numPecasAtivas;
+    private int numPecasCapturadas;
+
+    // Construtor da classe Jogador
+    public Jogador(String nome, Casa.Cor cor) {
+        this.nome = nome;
+        this.cor = cor;
+        this.pecasAtivas = new Peca[16]; // Assume 16 peças no máximo
+        this.pecasCapturadas = new Peca[16]; // Assume 16 peças no máximo
+        this.numPecasAtivas = 0;
+        this.numPecasCapturadas = 0;
+    }
+
+    // Solicita ao jogador a jogada desejada e retorna a informação
+    public String informaJogada() {
+        /*
+         * Solicita ao jogador que digite a jogada ou o código "parar" para interromper o jogo.
+         * Retorna uma string com a jogada ou o comando digitado pelo jogador.
+         */
+        return ""; // Implementação necessária
+    }
+
+    // Retorna uma string com os desenhos das peças capturadas
+    public String pecasCapturadas() {
+        /*
+         * Retorna uma string com os desenhos das peças que foram capturadas pelo jogador.
+         */
+        return ""; // Implementação necessária
+    }
+
+    // Adiciona uma peça capturada ao vetor de peças capturadas
+    public void capturarPeca(Peca peca) {
+        /*
+         * Adiciona a peça capturada ao vetor de peças capturadas e remove a peça do vetor de peças ativas.
+         */
+    }
+
+    // Remove uma peça do vetor de peças ativas
+    public void removerPeca(Peca peca) {
+        /*
+         * Remove a peça do vetor de peças ativas.
+         */
+    }
+
+    // Adiciona uma peça ao vetor de peças ativas
+    public void adicionarPeca(Peca peca) {
+        /*
+         * Adiciona a peça ao vetor de peças ativas.
+         */
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Casa.Cor getCor() {
+        return cor;
+    }
+
+    public Peca[] getPecasAtivas() {
+        return pecasAtivas;
+    }
+
+    public Peca[] getPecasCapturadas() {
+        return pecasCapturadas;
+    }
+}
