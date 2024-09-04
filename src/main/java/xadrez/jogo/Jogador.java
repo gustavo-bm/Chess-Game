@@ -1,5 +1,7 @@
 package main.java.xadrez.jogo;
 
+import java.util.ArrayList;
+
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Casa;
 
@@ -7,8 +9,8 @@ public class Jogador {
 
     private String nome;
     private Casa.Cor cor;
-    private Peca[] pecasAtivas; // Vetor para armazenar as peças ativas
-    private Peca[] pecasCapturadas; // Vetor para armazenar as peças capturadas
+    private ArrayList<Peca> pecasAtivas; // Vetor para armazenar as peças ativas
+    private ArrayList<Peca> pecasCapturadas; // Vetor para armazenar as peças capturadas
     private int numPecasAtivas;
     private int numPecasCapturadas;
 
@@ -68,11 +70,11 @@ public class Jogador {
         return cor;
     }
 
-    public Peca[] getPecasAtivas() {
+    public ArrayList<Peca> getPecasAtivas() {
         return pecasAtivas;
     }
 
-    public Peca[] getPecasCapturadas() {
+    public ArrayList<Peca> getPecasCapturadas() {
         return pecasCapturadas;
     }
 }

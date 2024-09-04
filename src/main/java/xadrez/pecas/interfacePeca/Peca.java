@@ -4,10 +4,10 @@ import main.java.xadrez.tabuleiro.Casa;
 
 public abstract class Peca {
 
-    protected Casa cor;
+    protected String cor;
     protected boolean capturada;
 
-    public Peca(Casa cor) {
+    public Peca(String cor) {
         this.cor = cor;
         this.capturada = false;
     }
@@ -26,7 +26,7 @@ public abstract class Peca {
         this.capturada = false;
     }
 
-    public Casa getCor() {
+    public String getCor() {
         return cor;
     }
 

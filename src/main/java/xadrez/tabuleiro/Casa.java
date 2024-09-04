@@ -4,26 +4,20 @@ import main.java.xadrez.pecas.interfacePeca.Peca;
 
 public class Casa {
 
-    public enum Cor {
-        BRANCO,
-        PRETO
-    }
-
-    private Cor cor;
+    private String cor;
     private int linha;
     private char coluna;
     private Peca peca; // Supondo que Peca é a classe base para todas as peças
 
-    // Construtor da classe Casa
-    public Casa(Cor cor, int linha, char coluna) {
-        this.cor = cor;
+    public Casa(String cor, int linha, char coluna) {
         this.linha = linha;
         this.coluna = coluna;
+        this.cor = cor;
         this.peca = null; // Inicialmente, a casa está livre
     }
 
     // Retorna a cor da casa
-    public Cor getCor() {
+    public String getCor() {
         return cor;
     }
 
@@ -43,8 +37,9 @@ public class Casa {
     }
 
     // Define uma peça na casa
-    public void colocarPeca(Peca peca) {
+    public Peca colocarPeca(Peca peca) {
         this.peca = peca;
+        return peca;
     }
 
     // Remove a peça da casa
@@ -56,4 +51,11 @@ public class Casa {
     public Peca getPeca() {
         return peca;
     }
+
+    @Override
+    public String toString() {
+        String pecaStr = (peca != null) ? peca.toString() : "Nenhuma peça";
+        return "Cor da casa: " + cor + "\nLinha: " + linha + "\nColuna: " + coluna + "\nPeça: " + pecaStr;
+    }
+
 }
