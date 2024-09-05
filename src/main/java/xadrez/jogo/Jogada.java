@@ -1,5 +1,11 @@
 package main.java.xadrez.jogo;
 
+/*
+ * Uma jogada é criada a partir das informações do jogador que a está realizando, a posição inicial e posição final da jogada, 
+ * mas deve manter o caminho com base nessas informações iniciais (veja o diagrama). Lembrar que cada peça é quem deve fornecer seu caminho
+ * (na forma de uma string) e identificar se o movimento é válido de acordo com sua forma de se movimentar. Uma vez criada, uma jogada não
+ * pode ser alterada.
+ */
 public class Jogada {
 
     // Verifica se uma jogada é válida

@@ -2,6 +2,10 @@ package main.java.xadrez.tabuleiro;
 
 import main.java.xadrez.pecas.interfacePeca.Peca;
 
+/*
+ * Cada casa tem uma cor (branco ou preto), uma linha (de 1 a 8) e uma coluna (de a a h).
+ * Cada casa pode estar livre ou ocupada por uma peça e deve saber que peça a ocupa. 
+ */
 public class Casa {
 
     private String cor;

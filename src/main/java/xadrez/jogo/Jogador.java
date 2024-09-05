@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Casa;
 
+/**
+ * Cada jogador tem um nome, um conjunto de peças de uma das cores possíveis e sabe quais peças suas ainda estão ativas no jogo. 
+ * Essa classe é onde é feita a entrada de dados para o jogo em si (dados do jogador e jogadas).
+ */
+
 public class Jogador {
 
     private String nome;

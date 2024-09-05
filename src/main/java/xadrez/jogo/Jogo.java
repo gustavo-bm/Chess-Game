@@ -3,8 +3,26 @@ package main.java.xadrez.jogo;
 import main.java.xadrez.jogo.Jogador;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
-public class Jogo {
+/**
+ * Essa classe é responsável pelo gerenciamento do jogo, controlando tudo o que acontece. Essa classe contém um tabuleiro, 
+ * 2 jogadores e o conjunto de 32 peças disponíveis. O jogo sabe o estado em que se encontra a cada momento (por exemplo: início do jogo, 
+ * xeque, xeque-mate). Sabe também de que jogador é a vez, controlando as jogadas, de quem é a vez, as checagens, etc, sendo a classe 
+ * responsável por manter as informações na tela e solicitar ao jogador da vez as informações necessárias para a jogada ou interrupção 
+ * do jogo. No início do jogo, também solicita a cada jogador o seu nome. Na tela, além do tabuleiro, o Jogo deve manter visível as peças 
+ * de cada jogador que já foram capturadas, desenhadas do lado do tabuleiro correspondente ao jogador.
 
+    A cada jogada solicitada por um jogador, o Jogo é a classe que dispara a jogada checando se ela é válida,  atualizando o tabuleiro, 
+    a situação, o histórico de jogadas, a tela, a situação do jogo, das peças, etc, usando sempre as chamadas de métodos das outras 
+    classes que forem apropriados.
+
+    Todas as jogadas efetivamente realizadas devem ser registradas em um histórico de jogadas que pode ser solicitado pelo Gerenciador 
+    para armazenamento em arquivo ou visualização das jogadas.
+
+    A classe Jogo deve ter ao menos os métodos esboçados abaixo (eu, gu, ja coloquei); talvez precise de mais métodos
+
+ */
+
+public class Jogo {
     private TabuleiroXadrez tabuleiro;
     private Jogador jogador1;
     private Jogador jogador2;
@@ -29,7 +47,14 @@ public class Jogo {
     public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) {
         /*
          * Atualiza o tabuleiro com a jogada do jogador.
-         * Altera o estado do jogo, atualiza as peças capturadas, e exibe informações na tela.
+         * Altera o estado do jogo, atualiza as peças capturadas.
+         */
+        desenhoTabuleiroAtualizado();
+    }
+
+    private void desenhoTabuleiroAtualizado() {
+        /*
+         * Exibe o tabuleiro atualizado na tela
          */
     }
 
