@@ -1,5 +1,9 @@
 package main.java.xadrez.tabuleiro;
 
+/**
+ * O caminho tem a sequência das casas e informa sobre a posição inicial, a posição final e a situação do caminho.
+
+ */
 public class Caminho {
 
     // Retorna se todas as casas do caminho estão livres, exceto a inicial e a final

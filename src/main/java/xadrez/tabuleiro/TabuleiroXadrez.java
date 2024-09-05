@@ -7,6 +7,11 @@ import main.java.xadrez.pecas.Rainha;
 import main.java.xadrez.pecas.Rei;
 import main.java.xadrez.pecas.Peao;
 
+/*
+ * Um tabuleiro contém 64 casas organizadas em 8 linhas e 8 colunas. Essa classe é responsável pela configuração inicial do tabuleiro, 
+ * manutenção da configuração do tabuleiro a cada jogada,  pelas informações dos limites do tabuleiro, bem como pelo desenho do tabuleiro (com as peças nas posições ocupadas) a ser usado pelo Jogo.
+
+ */
 public class TabuleiroXadrez {
 
     private Casa[][] casas;
