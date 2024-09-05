@@ -6,7 +6,7 @@ public class Cavalo extends Peca {
 
     public Cavalo(String cor) {
         super(cor);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -20,8 +20,24 @@ public class Cavalo extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movimentoValido'");
+        if (linhaD == linhaO + 1 || linhaD == linhaO - 1) {
+            if (colunaD == colunaO + 2 || colunaD == colunaO - 2) {
+                throw new UnsupportedOperationException("Unimplemented method 'movimentoValido'");
+                return true;
+            } else {
+                return false;
+            }
+        } else if (linhaD == linhaO + 2 || linhaD == linhaO - 2) {
+            if (colunaD == colunaO + 1 || colunaD == colunaO - 1) {
+                throw new UnsupportedOperationException("Unimplemented method 'movimentoValido'");
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
     }
 
     @Override
@@ -29,5 +45,5 @@ public class Cavalo extends Peca {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'caminho'");
     }
-    
+
 }
