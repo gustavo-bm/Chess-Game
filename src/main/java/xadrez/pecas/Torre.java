@@ -6,7 +6,6 @@ public class Torre extends Peca {
 
     public Torre(String cor) {
         super(cor);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
@@ -18,15 +17,43 @@ public class Torre extends Peca {
         }
     }
 
+    // mudar todos para protected talvez
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'movimentoValido'");
+        return linhaO == linhaD || colunaO == colunaD;
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'caminho'");
+        if (movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
+            StringBuilder sb = new StringBuilder();
+
+            if (linhaO == linhaD) {
+                if (colunaO < colunaD) {
+                    for (char col = colunaO; col <= colunaD; col++) {
+                        sb.append(linhaO).append(col).append("");
+                    }
+                } else {
+                    for (char col = colunaO; col >= colunaD; col--) {
+                        sb.append(linhaO).append(col).append("");
+                    }
+                }
+            } else if (colunaO == colunaD) {
+                if (linhaO < linhaD) {
+                    for (int linha = linhaO; linha <= linhaD; linha++) {
+                        sb.append(linha).append(colunaO).append("");
+                    }
+                } else {
+                    for (int linha = linhaO; linha >= linhaD; linha--) {
+                        sb.append(linha).append(colunaO).append("");
+                    }
+                }
+            }
+
+            return sb.toString();
+        } else {
+            return "Movimento Inválido.";
+        }
     }
+
 }
