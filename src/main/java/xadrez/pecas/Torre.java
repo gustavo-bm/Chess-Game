@@ -52,7 +52,7 @@ public class Torre extends Peca {
 
             return sb.toString();
         } else {
-            return "Movimento Inválido.";
+            return "";
         }
     }
 

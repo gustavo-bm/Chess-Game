@@ -1,8 +1,12 @@
 package main.java.xadrez;
 
+import main.java.xadrez.jogo.Jogada;
+import main.java.xadrez.jogo.Jogador;
 import main.java.xadrez.pecas.Bispo;
 import main.java.xadrez.pecas.Torre;
 import main.java.xadrez.pecas.interfacePeca.Peca;
+import main.java.xadrez.tabuleiro.Caminho;
+import main.java.xadrez.tabuleiro.Casa;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
 /**
@@ -32,43 +36,66 @@ import main.java.xadrez.tabuleiro.TabuleiroXadrez;
  */
 public class Gerenciador {
 
-    // Codigo para cores
-    private static final String BLACK = "\u001B[30m";
-    private static final String WHITE = "\u001B[37m";
+    private void testarTorre() {
+        Peca torre = new Torre("WHITE");
 
-    public void teste() {
-        // Criar peças e casas para testar os métodos básicos implementados, com a finalizade de gerar o tabuleiro
-        Peca torre = new Torre(WHITE);
-        System.out.println(torre.getCor());
-        System.out.println(torre.toString());
-        System.out.println(torre.movimentoValido(1, 'a', 1, 'b')); //true
-        System.out.println(torre.movimentoValido(1, 'a', 4, 'a')); //true
-        System.out.println(torre.movimentoValido(1, 'a', 2, 'b')); //false
-        System.out.println(torre.movimentoValido(5, 'b', 2, 'b')); 
-        System.out.println(torre.movimentoValido(5, 'a', 5, 'c')); 
-        System.out.println(torre.caminho(1, 'a', 1, 'b')); //true
-        System.out.println(torre.caminho(1, 'a', 4, 'a')); //true
-        System.out.println(torre.caminho(1, 'a', 2, 'b')); //false
-        System.out.println(torre.caminho(5, 'b', 2, 'b')); 
-        System.out.println(torre.caminho(5, 'a', 5, 'c')); 
+        System.out.println(torre.movimentoValido(1, 'a', 1, 'b')); // true
+        System.out.println(torre.movimentoValido(1, 'a', 4, 'a')); // true
+        System.out.println(torre.movimentoValido(1, 'a', 2, 'b')); // false
 
-        Peca bispo = new Bispo(BLACK);
-        System.out.println(bispo.getCor());
-        System.out.println(bispo.toString());
+        System.out.println();
 
-        // Inicializar o tabuleiro com as peças em suas posições iniciais e exibi-lo
-        TabuleiroXadrez tabuleiro = new TabuleiroXadrez();
-        System.out.println(tabuleiro.desenho());
-
-        // Exibir as infromações de cada casa
-        // System.out.println(tabuleiro.getCasas());
+        System.out.println(torre.caminho(1, 'a', 1, 'b')); // 1a1b
+        System.out.println(torre.caminho(1, 'a', 4, 'a')); // 1a2a3a4a
+        System.out.println(torre.caminho(5, 'b', 2, 'b')); // 5b4b3b2b
     }
 
-    
+    private void testarTabuleiroComEsemPecas() {
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez(false);
+        System.out.println(tabuleiro1.desenho());
+
+        TabuleiroXadrez tabuleiro2 = new TabuleiroXadrez(true);
+        System.out.println(tabuleiro2.desenho());
+    }
+
+    private void testarColocacaoDePecasNoTabuleiro() {
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez(false);
+        Casa[][] casas = tabuleiro1.getCasas();
+
+        Peca torre = new Torre("WHITE");
+        casas[0][0].colocarPeca(torre); 
+
+        System.out.println(tabuleiro1.desenho());
+    }
+
+    private void testarJogadorEJogadas() {
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez(false);
+        Casa[][] casas = tabuleiro1.getCasas();
+        Peca torre = new Torre("WHITE");
+        casas[0][0].colocarPeca(torre); 
+
+        Jogador jogador1 = new Jogador("GU", "WHITE");
+
+        Jogada jogada1 = new Jogada(casas[0][0], casas[0][4]); 
+        Jogada jogada2 = new Jogada(casas[0][0], casas[1][4]); 
+        Jogada jogada3 = new Jogada(casas[0][5], casas[0][4]); 
+        Jogada jogada4 = new Jogada(casas[0][0], casas[0][5]); 
+
+        System.out.println("Jogada1 válida: " + jogada1.ehValida(tabuleiro1, jogador1)); // true
+        System.out.println("Jogada2 válida: " + jogada2.ehValida(tabuleiro1, jogador1)); // false
+        System.out.println("Jogada3 válida: " + jogada3.ehValida(tabuleiro1, jogador1)); // false
+        System.out.println("Jogada4 válida: " + jogada4.ehValida(tabuleiro1, jogador1)); // true
+    }
+
+    public void teste() {
+        // testarTorre();
+        // testarTabuleiroComEsemPecas();
+        // testarColocacaoDePecasNoTabuleiro();
+        testarJogadorEJogadas();
+    }
+
     public static void main(String[] args) {
         Gerenciador gerenciador = new Gerenciador();
         gerenciador.teste();
-
-
     }
 }

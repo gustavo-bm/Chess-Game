@@ -13,18 +13,18 @@ import main.java.xadrez.tabuleiro.Casa;
 public class Jogador {
 
     private String nome;
-    private Casa.Cor cor;
-    private ArrayList<Peca> pecasAtivas; // Vetor para armazenar as peças ativas
-    private ArrayList<Peca> pecasCapturadas; // Vetor para armazenar as peças capturadas
+    private String cor;
+    private ArrayList<Peca> pecasAtivas;
+    private ArrayList<Peca> pecasCapturadas;
     private int numPecasAtivas;
     private int numPecasCapturadas;
 
     // Construtor da classe Jogador
-    public Jogador(String nome, Casa.Cor cor) {
+    public Jogador(String nome, String cor) {
         this.nome = nome;
         this.cor = cor;
-        this.pecasAtivas = new Peca[16]; // Assume 16 peças no máximo
-        this.pecasCapturadas = new Peca[16]; // Assume 16 peças no máximo
+        this.pecasAtivas = new ArrayList<Peca>(16); // Assume 16 peças no máximo
+        this.pecasCapturadas = new ArrayList<Peca>(16); // Assume 16 peças no máximo
         this.numPecasAtivas = 0;
         this.numPecasCapturadas = 0;
     }
@@ -71,7 +71,7 @@ public class Jogador {
         return nome;
     }
 
-    public Casa.Cor getCor() {
+    public String getCor() {
         return cor;
     }
 

@@ -1,7 +1,5 @@
 package main.java.xadrez.pecas.interfacePeca;
 
-import main.java.xadrez.tabuleiro.Casa;
-
 /*
  * Peças específicas
 Cada tipo de peça específica tem uma classe própria: Rei, Dama, Cavalo, Bispo, Torre, Peão. 

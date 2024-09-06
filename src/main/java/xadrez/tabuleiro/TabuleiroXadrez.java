@@ -20,12 +20,15 @@ public class TabuleiroXadrez {
     private static final String BLACK = "\u001B[30m";
     private static final String WHITE = "\u001B[37m";
 
-    public TabuleiroXadrez() {
+    public TabuleiroXadrez(boolean inicializarComPecas) {
         casas = new Casa[8][8];
-        inicializarTabuleiro();
+        if (inicializarComPecas)
+            inicializarTabuleiroComPecas();
+        else
+            inicializarTabuleiroSemPecas();
     }
 
-    private void inicializarTabuleiro() {
+    private void inicializarTabuleiroSemPecas() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 String cor = (i + j) % 2 == 0 ? "Branco" : "Preto";
@@ -35,10 +38,14 @@ public class TabuleiroXadrez {
                 casas[i][j] = new Casa(cor, i + 1, coluna);
             }
         }
-    
+    }
+
+    private void inicializarTabuleiroComPecas() {
+        inicializarTabuleiroSemPecas();
         colocarPecasPretas();
         colocarPecasBrancas();
     }
+    
 
     private void colocarPecasPretas() {
         casas[0][0].colocarPeca(new Torre(BLACK));
@@ -71,7 +78,7 @@ public class TabuleiroXadrez {
     }
 
     public boolean noLimite(int linha, char coluna) {
-        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
+        return linha >= 0 && linha <= 7 && coluna >= 'a' && coluna <= 'h';
     }
 
     public String desenho() {
@@ -109,7 +116,11 @@ public class TabuleiroXadrez {
         return sb.toString();
     }
 
-    public String getCasas() {
+    public Casa[][] getCasas() {
+        return casas;
+    }
+
+    public String getDescricaoCasas() {
         StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < casas.length; i++) {
