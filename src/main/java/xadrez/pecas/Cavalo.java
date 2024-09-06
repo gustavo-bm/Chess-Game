@@ -40,7 +40,59 @@ public class Cavalo extends Peca {
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        // TODO Auto-generated method stub
+        if (linhaO > linhaD) {
+            for (int i = linhaO; i >= linhaD; i--) {
+                System.out.print(i);
+                System.out.print(colunaO);
+            }
+            if (colunaO > colunaD) {
+                for (int i = colunaO; i >= colunaD; i--) {
+                    if (i == colunaD) {
+                        System.out.print(linhaD);
+                        System.out.println(i);
+                        break;
+                    }
+                    System.out.print(linhaD);
+                    System.out.print(i);
+                }
+            } else {
+                for (int i = colunaO; i <= colunaD; i++) {
+                    if (i == colunaD) {
+                        System.out.print(linhaD);
+                        System.out.println(i);
+                        break;
+                    }
+                    System.out.print(linhaD);
+                    System.out.print(i);
+                }
+            }
+        } else {
+            for (int i = linhaO; i <= linhaD; i++) {
+                System.out.print(colunaO);
+                System.out.print(i);
+            }
+            if (colunaO > colunaD) {
+                for (int i = colunaO; i >= colunaD; i--) {
+                    if (i == colunaD) {
+                        System.out.print(linhaD);
+                        System.out.println(i);
+                        break;
+                    }
+                    System.out.print(linhaD);
+                    System.out.print(i);
+                }
+            } else {
+                for (int i = colunaO; i <= colunaD; i++) {
+                    if (i == colunaD) {
+                        System.out.print(linhaD);
+                        System.out.println(i);
+                        break;
+                    }
+                    System.out.print(linhaD);
+                    System.out.print(i);
+                }
+            }
+        }
         throw new UnsupportedOperationException("Unimplemented method 'caminho'");
     }
 
