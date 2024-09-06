@@ -1,6 +1,7 @@
 package main.java.xadrez;
 
 import main.java.xadrez.pecas.Bispo;
+import main.java.xadrez.pecas.Torre;
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
@@ -37,9 +38,19 @@ public class Gerenciador {
 
     public void teste() {
         // Criar peças e casas para testar os métodos básicos implementados, com a finalizade de gerar o tabuleiro
-        Peca torre = new Bispo(WHITE);
+        Peca torre = new Torre(WHITE);
         System.out.println(torre.getCor());
         System.out.println(torre.toString());
+        System.out.println(torre.movimentoValido(1, 'a', 1, 'b')); //true
+        System.out.println(torre.movimentoValido(1, 'a', 4, 'a')); //true
+        System.out.println(torre.movimentoValido(1, 'a', 2, 'b')); //false
+        System.out.println(torre.movimentoValido(5, 'b', 2, 'b')); 
+        System.out.println(torre.movimentoValido(5, 'a', 5, 'c')); 
+        System.out.println(torre.caminho(1, 'a', 1, 'b')); //true
+        System.out.println(torre.caminho(1, 'a', 4, 'a')); //true
+        System.out.println(torre.caminho(1, 'a', 2, 'b')); //false
+        System.out.println(torre.caminho(5, 'b', 2, 'b')); 
+        System.out.println(torre.caminho(5, 'a', 5, 'c')); 
 
         Peca bispo = new Bispo(BLACK);
         System.out.println(bispo.getCor());
@@ -50,12 +61,14 @@ public class Gerenciador {
         System.out.println(tabuleiro.desenho());
 
         // Exibir as infromações de cada casa
-        System.out.println(tabuleiro.getCasas());
+        // System.out.println(tabuleiro.getCasas());
     }
 
     
     public static void main(String[] args) {
         Gerenciador gerenciador = new Gerenciador();
         gerenciador.teste();
+
+
     }
 }
