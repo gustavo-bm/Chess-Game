@@ -11,7 +11,7 @@ public class Peao extends Peca {
 
     @Override
     public String desenho() {
-        if (cor.equals("\u001B[30m")) {
+        if (cor.equals("BLACK")) {
             return "\u001B[30mP\u001B[0m";
         } else {
             return "\u001B[37mP\u001B[0m";

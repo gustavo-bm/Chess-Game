@@ -20,15 +20,12 @@ public class TabuleiroXadrez {
     private static final String BLACK = "\u001B[30m";
     private static final String WHITE = "\u001B[37m";
 
-    public TabuleiroXadrez(boolean inicializarComPecas) {
+    public TabuleiroXadrez() {
         casas = new Casa[8][8];
-        if (inicializarComPecas)
-            inicializarTabuleiroComPecas();
-        else
-            inicializarTabuleiroSemPecas();
+        inicializarTabuleiro();
     }
 
-    private void inicializarTabuleiroSemPecas() {
+    private void inicializarTabuleiro() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 String cor = (i + j) % 2 == 0 ? "Branco" : "Preto";
@@ -37,43 +34,6 @@ public class TabuleiroXadrez {
                 // por enquanto a cor das casas não são exibidas, pois não achei nenhuma forma de fazer isso
                 casas[i][j] = new Casa(cor, i + 1, coluna);
             }
-        }
-    }
-
-    private void inicializarTabuleiroComPecas() {
-        inicializarTabuleiroSemPecas();
-        colocarPecasPretas();
-        colocarPecasBrancas();
-    }
-    
-
-    private void colocarPecasPretas() {
-        casas[0][0].colocarPeca(new Torre(BLACK));
-        casas[0][1].colocarPeca(new Cavalo(BLACK));
-        casas[0][2].colocarPeca(new Bispo(BLACK));
-        casas[0][3].colocarPeca(new Rainha(BLACK));
-        casas[0][4].colocarPeca(new Rei(BLACK));
-        casas[0][5].colocarPeca(new Bispo(BLACK));
-        casas[0][6].colocarPeca(new Cavalo(BLACK));
-        casas[0][7].colocarPeca(new Torre(BLACK));
-
-        for (int j = 0; j < 8; j++) {
-            casas[1][j].colocarPeca(new Peao(BLACK));
-        }
-    }
-
-    private void colocarPecasBrancas() {
-        casas[7][0].colocarPeca(new Torre(WHITE));
-        casas[7][1].colocarPeca(new Cavalo(WHITE));
-        casas[7][2].colocarPeca(new Bispo(WHITE));
-        casas[7][3].colocarPeca(new Rainha(WHITE));
-        casas[7][4].colocarPeca(new Rei(WHITE));
-        casas[7][5].colocarPeca(new Bispo(WHITE));
-        casas[7][6].colocarPeca(new Cavalo(WHITE));
-        casas[7][7].colocarPeca(new Torre(WHITE));
-
-        for (int j = 0; j < 8; j++) {
-            casas[6][j].colocarPeca(new Peao(WHITE));
         }
     }
 

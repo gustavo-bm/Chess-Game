@@ -2,6 +2,7 @@ package main.java.xadrez;
 
 import main.java.xadrez.jogo.Jogada;
 import main.java.xadrez.jogo.Jogador;
+import main.java.xadrez.jogo.Jogo;
 import main.java.xadrez.pecas.Bispo;
 import main.java.xadrez.pecas.Torre;
 import main.java.xadrez.pecas.interfacePeca.Peca;
@@ -51,15 +52,15 @@ public class Gerenciador {
     }
 
     private void testarTabuleiroComEsemPecas() {
-        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez(false);
-        System.out.println(tabuleiro1.desenho());
+        // TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez();
+        // System.out.println(tabuleiro1.desenho());
 
-        TabuleiroXadrez tabuleiro2 = new TabuleiroXadrez(true);
-        System.out.println(tabuleiro2.desenho());
+        Jogo jogo1 = new Jogo();
+        jogo1.desenhoTabuleiroAtualizado();
     }
 
     private void testarColocacaoDePecasNoTabuleiro() {
-        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez(false);
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez();
         Casa[][] casas = tabuleiro1.getCasas();
 
         Peca torre = new Torre("WHITE");
@@ -69,7 +70,7 @@ public class Gerenciador {
     }
 
     private void testarJogadorEJogadas() {
-        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez(false);
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez();
         Casa[][] casas = tabuleiro1.getCasas();
         Peca torre = new Torre("WHITE");
         casas[0][0].colocarPeca(torre); 
@@ -89,9 +90,9 @@ public class Gerenciador {
 
     public void teste() {
         // testarTorre();
-        // testarTabuleiroComEsemPecas();
         // testarColocacaoDePecasNoTabuleiro();
-        testarJogadorEJogadas();
+        // testarJogadorEJogadas();
+        testarTabuleiroComEsemPecas();
     }
 
     public static void main(String[] args) {
