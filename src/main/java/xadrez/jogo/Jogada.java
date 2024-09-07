@@ -26,7 +26,7 @@ public class Jogada {
         /*
          * A função deve verificar se o rei do oponente está em xeque após a jogada.
          */
-        return false; // Implementação necessária
+        return true; // Implementação necessária
     }
 
     // Verifica se a jogada levou a uma situação de xeque mate
