@@ -35,43 +35,10 @@ public class TabuleiroXadrez {
                 casas[i][j] = new Casa(cor, i + 1, coluna);
             }
         }
-    
-        colocarPecasPretas();
-        colocarPecasBrancas();
-    }
-
-    private void colocarPecasPretas() {
-        casas[0][0].colocarPeca(new Torre(BLACK));
-        casas[0][1].colocarPeca(new Cavalo(BLACK));
-        casas[0][2].colocarPeca(new Bispo(BLACK));
-        casas[0][3].colocarPeca(new Rainha(BLACK));
-        casas[0][4].colocarPeca(new Rei(BLACK));
-        casas[0][5].colocarPeca(new Bispo(BLACK));
-        casas[0][6].colocarPeca(new Cavalo(BLACK));
-        casas[0][7].colocarPeca(new Torre(BLACK));
-
-        for (int j = 0; j < 8; j++) {
-            casas[1][j].colocarPeca(new Peao(BLACK));
-        }
-    }
-
-    private void colocarPecasBrancas() {
-        casas[7][0].colocarPeca(new Torre(WHITE));
-        casas[7][1].colocarPeca(new Cavalo(WHITE));
-        casas[7][2].colocarPeca(new Bispo(WHITE));
-        casas[7][3].colocarPeca(new Rainha(WHITE));
-        casas[7][4].colocarPeca(new Rei(WHITE));
-        casas[7][5].colocarPeca(new Bispo(WHITE));
-        casas[7][6].colocarPeca(new Cavalo(WHITE));
-        casas[7][7].colocarPeca(new Torre(WHITE));
-
-        for (int j = 0; j < 8; j++) {
-            casas[6][j].colocarPeca(new Peao(WHITE));
-        }
     }
 
     public boolean noLimite(int linha, char coluna) {
-        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
+        return linha >= 0 && linha <= 7 && coluna >= 'a' && coluna <= 'h';
     }
 
     public String desenho() {
@@ -109,7 +76,11 @@ public class TabuleiroXadrez {
         return sb.toString();
     }
 
-    public String getCasas() {
+    public Casa[][] getCasas() {
+        return casas;
+    }
+
+    public String getDescricaoCasas() {
         StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < casas.length; i++) {

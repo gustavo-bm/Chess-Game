@@ -5,29 +5,38 @@ package main.java.xadrez.tabuleiro;
 
  */
 public class Caminho {
+    private Casa casaInicial;
+    private Casa casaFinal;
+
+    public Caminho(Casa casaInicial, Casa casaFinal) {
+        this.casaInicial = casaInicial;
+        this.casaFinal = casaFinal;
+    }
 
     // Retorna se todas as casas do caminho estão livres, exceto a inicial e a final
-    public boolean estaLivre() {
-        /*
-         * O método deve verificar se todas as casas no caminho estão livres,
-         * exceto a posição inicial e a posição final.
-         */
-        return false; // Implementação necessária
+    public boolean estaLivre(String caminho, TabuleiroXadrez tabuleiro) {
+        Casa[][] casas = tabuleiro.getCasas();
+        int length = caminho.length();
+    
+        for (int i = 0; i < length - 2; i += 2) {
+            int linha = Character.getNumericValue(caminho.charAt(i)) - 1;
+            int coluna = caminho.charAt(i + 1) - 'a';
+    
+            if (i != 0 && i != length - 2 && !casas[linha][coluna].estaLivre()) {
+                return false;
+            }
+        }
+    
+        return true;
     }
 
     // Retorna a casa inicial do caminho
     public Casa casaInicial() {
-        /*
-         * O método deve retornar a casa inicial do caminho.
-         */
-        return null; // Implementação necessária
+        return casaInicial;
     }
 
     // Retorna a casa final do caminho
     public Casa casaFinal() {
-        /*
-         * O método deve retornar a casa final do caminho.
-         */
-        return null; // Implementação necessária
+        return casaFinal;
     }
 }

@@ -1,6 +1,15 @@
 package main.java.xadrez.jogo;
 
+import java.util.Scanner;
+
 import main.java.xadrez.jogo.Jogador;
+import main.java.xadrez.pecas.Bispo;
+import main.java.xadrez.pecas.Cavalo;
+import main.java.xadrez.pecas.Peao;
+import main.java.xadrez.pecas.Rainha;
+import main.java.xadrez.pecas.Rei;
+import main.java.xadrez.pecas.Torre;
+import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
 /**
@@ -23,19 +32,96 @@ import main.java.xadrez.tabuleiro.TabuleiroXadrez;
  */
 
 public class Jogo {
+    private Peca[] pecas;
     private TabuleiroXadrez tabuleiro;
-    private Jogador jogador1;
-    private Jogador jogador2;
+    private Jogador jogadorBrancas;
+    private Jogador jogadorPretas;
     private Jogador jogadorAtual;
     private String historicoJogadas;
 
     // Construtor da classe Jogo
     public Jogo() {
-        // Inicializa o tabuleiro e os jogadores
+        this.tabuleiro = new TabuleiroXadrez();
+        inicializarPecas();
+    }
+
+    public void iniciarJogo() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Digite o nome do jogador que utilizará as peças brancas: ");
+        String nomeJogadorBrancas = scanner.nextLine();
+
+        System.out.println("Digite o nome do jogador que utilizará as peças pretas: ");
+        String nomeJogadorPretas = scanner.nextLine();
+
+        this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
+        this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
+
+        // brancas começam o jogo
+        this.jogadorAtual = jogadorBrancas;
+        
+        scanner.close();
+    }
+
+    private void inicializarPecas() {
+        pecas = new Peca[32];
+        int index = 0;
+
+        pecas[index++] = new Torre("WHITE");
+        pecas[index++] = new Cavalo("WHITE");
+        pecas[index++] = new Bispo("WHITE");
+        pecas[index++] = new Rainha("WHITE");
+        pecas[index++] = new Rei("WHITE");
+        pecas[index++] = new Bispo("WHITE");
+        pecas[index++] = new Cavalo("WHITE");
+        pecas[index++] = new Torre("WHITE");
+        for (int i = 0; i < 8; i++) {
+            pecas[index++] = new Peao("WHITE");
+        }
+
+        pecas[index++] = new Torre("BLACK");
+        pecas[index++] = new Cavalo("BLACK");
+        pecas[index++] = new Bispo("BLACK");
+        pecas[index++] = new Rainha("BLACK");
+        pecas[index++] = new Rei("BLACK");
+        pecas[index++] = new Bispo("BLACK");
+        pecas[index++] = new Cavalo("BLACK");
+        pecas[index++] = new Torre("BLACK");
+        for (int i = 0; i < 8; i++) {
+            pecas[index++] = new Peao("BLACK");
+        }
+
+        posicionarPecasNoTabuleiro();
+    }
+
+    private void posicionarPecasNoTabuleiro() {
+        tabuleiro.getCasas()[7][0].colocarPeca(pecas[0]);
+        tabuleiro.getCasas()[7][1].colocarPeca(pecas[1]);
+        tabuleiro.getCasas()[7][2].colocarPeca(pecas[2]);
+        tabuleiro.getCasas()[7][3].colocarPeca(pecas[3]);
+        tabuleiro.getCasas()[7][4].colocarPeca(pecas[4]);
+        tabuleiro.getCasas()[7][5].colocarPeca(pecas[5]);
+        tabuleiro.getCasas()[7][6].colocarPeca(pecas[6]);
+        tabuleiro.getCasas()[7][7].colocarPeca(pecas[7]);
+        for (int i = 0; i < 8; i++) {
+            tabuleiro.getCasas()[6][i].colocarPeca(pecas[8 + i]);
+        }
+
+        tabuleiro.getCasas()[0][0].colocarPeca(pecas[16]);
+        tabuleiro.getCasas()[0][1].colocarPeca(pecas[17]);
+        tabuleiro.getCasas()[0][2].colocarPeca(pecas[18]);
+        tabuleiro.getCasas()[0][3].colocarPeca(pecas[19]);
+        tabuleiro.getCasas()[0][4].colocarPeca(pecas[20]);
+        tabuleiro.getCasas()[0][5].colocarPeca(pecas[21]);
+        tabuleiro.getCasas()[0][6].colocarPeca(pecas[22]);
+        tabuleiro.getCasas()[0][7].colocarPeca(pecas[23]);
+        for (int i = 0; i < 8; i++) {
+            tabuleiro.getCasas()[1][i].colocarPeca(pecas[24 + i]);
+        }
     }
 
     // Verifica se a jogada é válida ou não
-    public boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {
+    private boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {
         /*
          * Verifica se a jogada do jogador é válida com base nas regras do jogo.
          * Verifica se a peça pode se mover para a nova posição e se a jogada é legal.
@@ -46,16 +132,34 @@ public class Jogo {
     // Se a jogada for válida, atualiza o tabuleiro e a situação do jogo
     public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) {
         /*
-         * Atualiza o tabuleiro com a jogada do jogador.
+         * Atualiza o tabuleiro com a jogada do jogador -> mudando a peça de lugar após a jogada ter sido efetivamente validada
          * Altera o estado do jogo, atualiza as peças capturadas.
          */
-        desenhoTabuleiroAtualizado();
+        if (jogadorAtual == jogadorBrancas) {
+            System.out.println("Vez das brancas");
+            //...
+            jogadorAtual = jogadorPretas;
+        } else if (jogadorAtual == jogadorPretas) {
+            System.out.println("Vez das pretas");
+            //...
+            jogadorAtual = jogadorPretas;
+        }
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Insira a jogada que deseja fazer: ");
+        String jogada = scanner.nextLine();
+
+        if (jogadaValida(linhaO, colunaO, linhaD, colunaD)) {
+            // coloca a peça em seu lugar
+
+            // exibe o tabuleiro
+            desenhoTabuleiroAtualizado();
+        }
+        scanner.close();
     }
 
     private void desenhoTabuleiroAtualizado() {
-        /*
-         * Exibe o tabuleiro atualizado na tela
-         */
+        System.out.println(tabuleiro.desenho());
     }
 
     // Retorna uma string com todos os dados relevantes do jogo para retomada posterior
@@ -63,6 +167,7 @@ public class Jogo {
         /*
          * Retorna uma string que representa o estado atual do jogo, incluindo o histórico de jogadas.
          */
+        
         return ""; // Implementação necessária
     }
 }

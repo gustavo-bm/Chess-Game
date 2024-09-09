@@ -6,12 +6,11 @@ public class Cavalo extends Peca {
 
     public Cavalo(String cor) {
         super(cor);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public String desenho() {
-        if (cor.equals("\u001B[30m")) {
+        if (cor.equals("BLACK")) {
             return "\u001B[30mH\u001B[0m";
         } else {
             return "\u001B[37mH\u001B[0m";
