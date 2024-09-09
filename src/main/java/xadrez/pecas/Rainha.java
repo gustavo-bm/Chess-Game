@@ -10,7 +10,7 @@ public class Rainha extends Peca {
 
     @Override
     public String desenho() {
-        if (cor.equals("BLACK")) {
+        if (cor.equals("\u001B[30m")) {
             return "\u001B[30mQ\u001B[0m";
         } else {
             return "\u001B[37mQ\u001B[0m";
@@ -23,49 +23,46 @@ public class Rainha extends Peca {
             return true;
         }else if(linhaO != linhaD && colunaD == colunaO){ //Movimento na Vertical, só se muda linha
             return true;
-        }else  if(abs(linha0 - linhaD) == abs(coluna0 - colunaD)){ //Movimento na Diagonal, linha e coluna se mexem na mesma proporção
+        }else  if(Math.abs(linhaO - linhaD) == Math.abs(colunaO - colunaD)){ //Movimento na Diagonal, linha e coluna se mexem na mesma proporção
             return true;
         }else {
             return false;
         }
-        
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
         String cam;
-        cam[0] = linha0;
-        cam[1] = coluna0;
-        cam[2] = '\0';
+        cam = "" + linhaO + colunaO + "\0";
        if(linhaO == linhaD && colunaD != colunaO) { //Movimento na Horizontal, só se muda coluna
             
-            if(colunaO < colundaD;){ // se for maior moveu para a direita, se for menor moveu para esquerda
-                for(char col = colunaO +1 ; col <= colundaD; col++){ 
-                  strcat(cam, &linhaO);
-                  strcat(cam, &col); 
+            if(colunaO < colunaD){ // se for maior moveu para a direita, se for menor moveu para esquerda
+                for(char col = (char) (colunaO +1) ; col <= colunaD; col++){ 
+                  cam += linhaO;
+                  cam += col; 
                 }
             }else{
-               for(char col = colunaO -1 ; col >= colundaD; col--){ 
-                  strcat(cam, &linhaO);
-                  strcat(cam, &col); 
+               for(char col = (char) (colunaO -1) ; col >= colunaD; col--){ 
+                  cam += linhaO;
+                  cam += col; 
                 }
             }
            
            
         }else if(linhaO != linhaD && colunaD == colunaO){ //Movimento na Vertical, só se muda linha
-            if(linhaO < linhaD;){ // se for menor moveu para cima, se for maior moveu para baixo
+            if(linhaO < linhaD){ // se for menor moveu para cima, se for maior moveu para baixo
                 for(int lin = linhaO +1 ; lin <= linhaD; lin++){ 
-                  strcat(cam, &lin);
-                  strcat(cam, &colunaO); 
+                  cam += lin;
+                  cam += colunaO; 
                 }
             }else{
                for(int lin = linhaO - 1 ; lin >= linhaD; lin--){ 
-                  strcat(cam, &lin);
-                  strcat(cam, &colunaO); 
+                  cam += lin;
+                  cam += colunaO; 
                 }
             }
            
-        }else  if(abs(linha0 - linhaD) == abs(coluna0 - colunaD)){ //Movimento na Diagonal, linha e coluna se mexem na mesma proporção
+        }else  if(Math.abs(linhaO - linhaD) == Math.abs(colunaO - colunaD)){ //Movimento na Diagonal, linha e coluna se mexem na mesma proporção
            int dir_lin; //Direçao que a lin muda (Cima ou baixo)
            int dir_col; //Direçao que a col muda (esquerda ou direita)
 
@@ -81,14 +78,14 @@ public class Rainha extends Peca {
             dir_col = -1; //Coluna vai para a esquerda
            }
 
-           char col = colundaO;
+           char col = colunaO;
            int lin = linhaO;
            
             while(col != colunaD && lin != linhaD){
                 col += dir_col; // Move a coluna para a direcao decidida
                 lin += dir_lin; // Move a linha para a direcao decidida
-                strcat(cam, &lin); //concatena a string com a linha
-                strcat(cam, &col); //concatena a string com a coluna
+                cam += lin; //concatena a string com a linha
+                cam += col; //concatena a string com a coluna
             }           
         }else {
             return "";
