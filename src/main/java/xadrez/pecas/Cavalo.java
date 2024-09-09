@@ -40,60 +40,35 @@ public class Cavalo extends Peca {
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (linhaO > linhaD) {
-            for (int i = linhaO; i >= linhaD; i--) {
-                System.out.print(i);
-                System.out.print(colunaO);
-            }
-            if (colunaO > colunaD) {
-                for (int i = colunaO; i >= colunaD; i--) {
-                    if (i == colunaD) {
-                        System.out.print(linhaD);
-                        System.out.println(i);
-                        break;
-                    }
-                    System.out.print(linhaD);
-                    System.out.print(i);
-                }
-            } else {
-                for (int i = colunaO; i <= colunaD; i++) {
-                    if (i == colunaD) {
-                        System.out.print(linhaD);
-                        System.out.println(i);
-                        break;
-                    }
-                    System.out.print(linhaD);
-                    System.out.print(i);
-                }
-            }
-        } else {
-            for (int i = linhaO; i <= linhaD; i++) {
-                System.out.print(colunaO);
-                System.out.print(i);
-            }
-            if (colunaO > colunaD) {
-                for (int i = colunaO; i >= colunaD; i--) {
-                    if (i == colunaD) {
-                        System.out.print(linhaD);
-                        System.out.println(i);
-                        break;
-                    }
-                    System.out.print(linhaD);
-                    System.out.print(i);
-                }
-            } else {
-                for (int i = colunaO; i <= colunaD; i++) {
-                    if (i == colunaD) {
-                        System.out.print(linhaD);
-                        System.out.println(i);
-                        break;
-                    }
-                    System.out.print(linhaD);
-                    System.out.print(i);
-                }
-            }
+        StringBuilder caminhoCavalo = new StringBuilder();
+
+        caminhoCavalo.append(linhaO).append(colunaO);
+
+        // Posicao Inicial
+        int linhaAtual = linhaO;
+        int colunaAtual = colunaO;
+
+        // Caso 2 linhas e 1 coluna
+        if (Math.abs(linhaD - linhaAtual) == 2 && Math.abs(colunaD - colunaAtual) == 1) {
+            linhaAtual += (linhaD - linhaAtual) / 2;
+            caminhoCavalo.append(linhaAtual).append(colunaAtual);
+            colunaAtual = colunaD;
+            caminhoCavalo.append(linhaAtual).append(colunaAtual);
         }
-        throw new UnsupportedOperationException("Unimplemented method 'caminho'");
+        // Caso 1 linha e 2 colunas
+        else if (Math.abs(linhaD - linhaAtual) == 1 && Math.abs(colunaD - colunaAtual) == 2) {
+            colunaAtual += (char) ((colunaD - colunaAtual) / 2);
+            caminhoCavalo.append(linhaAtual).append(colunaAtual);
+            linhaAtual = linhaD;
+            caminhoCavalo.append(linhaAtual).append(colunaAtual);
+        }
+
+        // Movimento Final
+        caminhoCavalo.append(linhaD).append(colunaD);
+
+        // return
+        return caminhoCavalo.toString();
+
     }
 
 }
