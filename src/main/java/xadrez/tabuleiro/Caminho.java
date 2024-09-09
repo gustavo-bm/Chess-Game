@@ -2,7 +2,6 @@ package main.java.xadrez.tabuleiro;
 
 /**
  * O caminho tem a sequência das casas e informa sobre a posição inicial, a posição final e a situação do caminho.
-
  */
 public class Caminho {
     private Casa casaInicial;

@@ -135,19 +135,6 @@ public class Jogo {
          * Atualiza o tabuleiro com a jogada do jogador -> mudando a peça de lugar após a jogada ter sido efetivamente validada
          * Altera o estado do jogo, atualiza as peças capturadas.
          */
-        if (jogadorAtual == jogadorBrancas) {
-            System.out.println("Vez das brancas");
-            //...
-            jogadorAtual = jogadorPretas;
-        } else if (jogadorAtual == jogadorPretas) {
-            System.out.println("Vez das pretas");
-            //...
-            jogadorAtual = jogadorPretas;
-        }
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Insira a jogada que deseja fazer: ");
-        String jogada = scanner.nextLine();
 
         if (jogadaValida(linhaO, colunaO, linhaD, colunaD)) {
             // coloca a peça em seu lugar
