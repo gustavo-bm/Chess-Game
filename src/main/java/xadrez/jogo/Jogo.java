@@ -56,6 +56,9 @@ public class Jogo {
 
         this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
         this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
+
+        // brancas começam o jogo
+        this.jogadorAtual = jogadorBrancas;
         
         scanner.close();
     }
@@ -132,20 +135,30 @@ public class Jogo {
          * Atualiza o tabuleiro com a jogada do jogador -> mudando a peça de lugar após a jogada ter sido efetivamente validada
          * Altera o estado do jogo, atualiza as peças capturadas.
          */
+        if (jogadorAtual == jogadorBrancas) {
+            System.out.println("Vez das brancas");
+            //...
+            jogadorAtual = jogadorPretas;
+        } else if (jogadorAtual == jogadorPretas) {
+            System.out.println("Vez das pretas");
+            //...
+            jogadorAtual = jogadorPretas;
+        }
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Insira a jogada que deseja fazer: ");
         String jogada = scanner.nextLine();
 
-        tabuleiro.desenho();
+        if (jogadaValida(linhaO, colunaO, linhaD, colunaD)) {
+            // coloca a peça em seu lugar
 
+            // exibe o tabuleiro
+            desenhoTabuleiroAtualizado();
+        }
         scanner.close();
     }
 
-    public void desenhoTabuleiroAtualizado() {
-        /*
-         * Exibe o tabuleiro atualizado na tela
-         */
+    private void desenhoTabuleiroAtualizado() {
         System.out.println(tabuleiro.desenho());
     }
 
@@ -154,6 +167,7 @@ public class Jogo {
         /*
          * Retorna uma string que representa o estado atual do jogo, incluindo o histórico de jogadas.
          */
+        
         return ""; // Implementação necessária
     }
 }

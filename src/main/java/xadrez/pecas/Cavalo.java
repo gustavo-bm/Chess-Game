@@ -92,7 +92,6 @@ public class Cavalo extends Peca {
                 }
             }
         }
-        throw new UnsupportedOperationException("Unimplemented method 'caminho'");
     }
 
 }
