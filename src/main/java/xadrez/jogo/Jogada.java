@@ -25,28 +25,21 @@ public class Jogada {
     public boolean ehValida(TabuleiroXadrez tabuleiro, Jogador jogadorAtual) {
         Casa casaInicial = caminho.casaInicial();
         Casa casaFinal = caminho.casaFinal();
-        
+
         if (casaInicial.getPeca() == null)
             return false;
-        
+
         Peca pecaInicial = casaInicial.getPeca();
         String corJogadorAtual = jogadorAtual.getCor();
 
         if (posicoesDentroDoLimite(tabuleiro, casaInicial, casaFinal)
                 && pecaPertenceAoJogador(pecaInicial, corJogadorAtual)
-                && destinoValido(casaFinal, corJogadorAtual)
+                && (destinoLivre(casaFinal, corJogadorAtual) || ehCaptura(casaFinal, corJogadorAtual))
                 && (caminhoEstaLivre(pecaInicial, casaInicial, casaFinal, tabuleiro)
                         || pecaEUmCavalo(pecaInicial))
                 && movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal)) {
             return true;
         }
-
-        System.out.println(posicoesDentroDoLimite(tabuleiro, casaInicial, casaFinal));
-        System.out.println(pecaPertenceAoJogador(pecaInicial, corJogadorAtual));
-        System.out.println(destinoValido(casaFinal, corJogadorAtual));
-        System.out.println(caminhoEstaLivre(pecaInicial, casaInicial, casaFinal, tabuleiro));
-        System.out.println(pecaEUmCavalo(pecaInicial));
-        System.out.println(movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal));
 
         return false;
     }
@@ -60,9 +53,12 @@ public class Jogada {
         return peca.getCor().equals(corJogador);
     }
 
-    private boolean destinoValido(Casa casaFinal, String corJogador) {
-        return casaFinal.estaLivre() ||
-                (casaFinal.getPeca() != null && !casaFinal.getPeca().getCor().equals(corJogador));
+    private boolean destinoLivre(Casa casaFinal, String corJogador) {
+        return casaFinal.estaLivre();
+    }
+
+    public boolean ehCaptura(Casa casaFinal, String corJogador) {
+        return casaFinal.getPeca() != null && !casaFinal.getPeca().getCor().equals(corJogador);
     }
 
     private boolean caminhoEstaLivre(Peca peca, Casa inicial, Casa fim, TabuleiroXadrez tabuleiro) {

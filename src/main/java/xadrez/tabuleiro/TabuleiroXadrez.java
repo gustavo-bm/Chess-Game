@@ -44,6 +44,8 @@ public class TabuleiroXadrez {
     public String desenho() {
         StringBuilder sb = new StringBuilder();
 
+        sb.append("    a   b   c   d   e   f   g   h\n");
+
         for (int i = 0; i < 8; i++) {
             sb.append("  ");
             for (int j = 0; j < 8; j++) {
@@ -51,7 +53,7 @@ public class TabuleiroXadrez {
             }
             sb.append("+\n");
 
-            sb.append((8 - i) + " ");
+            sb.append((i + 1) + " ");
             for (int j = 0; j < 8; j++) {
                 sb.append("| ");
                 if (casas[i][j].getPeca() != null) {
@@ -70,8 +72,6 @@ public class TabuleiroXadrez {
             sb.append("+---");
         }
         sb.append("+\n");
-
-        sb.append("    a   b   c   d   e   f   g   h\n");
 
         return sb.toString();
     }

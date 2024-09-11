@@ -1,10 +1,12 @@
 package main.java.xadrez.jogo;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Casa;
+import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
 /**
  * Cada jogador tem um nome, um conjunto de peças de uma das cores possíveis e
@@ -38,6 +40,8 @@ public class Jogador {
          * Retorna uma string com a jogada ou o comando digitado pelo jogador.
          */
         Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Informe a jogada: ");
         String jogada = scanner.nextLine();
 
         return jogada;
@@ -45,7 +49,10 @@ public class Jogador {
 
     // Retorna uma string com os desenhos das peças capturadas
     public String pecasCapturadas() {
-        /* Retorna uma string com os desenhos das peças que foram capturadas pelo jogador. */
+        /*
+         * Retorna uma string com os desenhos das peças que foram capturadas pelo
+         * jogador.
+         */
         StringBuilder resultado = new StringBuilder();
 
         for (Peca peca : pecasCapturadas) {

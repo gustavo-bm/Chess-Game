@@ -56,7 +56,7 @@ public class Gerenciador {
         // System.out.println(tabuleiro1.desenho());
 
         Jogo jogo1 = new Jogo();
-        jogo1.desenhoTabuleiroAtualizado();
+        jogo1.desenhoJogoAtualizado();
     }
 
     private void testarColocacaoDePecasNoTabuleiro() {
@@ -88,11 +88,18 @@ public class Gerenciador {
         System.out.println("Jogada4 válida: " + jogada4.ehValida(tabuleiro1, jogador1)); // true
     }
 
+    private void testarJogo() {
+        Jogo jogo = new Jogo();
+        jogo.iniciarJogo();
+        jogo.desenhoJogoAtualizado();
+    }
+
     public void teste() {
         // testarTorre();
         // testarColocacaoDePecasNoTabuleiro();
         // testarJogadorEJogadas();
-        testarTabuleiroComEsemPecas();
+        // testarTabuleiroComEsemPecas();
+        testarJogo();
     }
 
     public static void main(String[] args) {
