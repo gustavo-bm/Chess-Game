@@ -19,13 +19,13 @@ public class Torre extends Peca {
 
     // mudar todos para protected talvez
     @Override
-    public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        return linhaO == linhaD || colunaO == colunaD;
+    public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+        return linhaO == linhaD || colunaO == colunaD ? 1 : 0;
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
+        if (movimentoValido(linhaO, colunaO, linhaD, colunaD) == 1) {
             StringBuilder sb = new StringBuilder();
 
             if (linhaO == linhaD) {

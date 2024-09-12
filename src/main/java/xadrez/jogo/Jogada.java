@@ -1,6 +1,7 @@
 package main.java.xadrez.jogo;
 
 import main.java.xadrez.pecas.Cavalo;
+import main.java.xadrez.pecas.Peao;
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Caminho;
 import main.java.xadrez.tabuleiro.Casa;
@@ -37,7 +38,7 @@ public class Jogada {
                 && (destinoLivre(casaFinal, corJogadorAtual) || ehCaptura(casaFinal, corJogadorAtual))
                 && (caminhoEstaLivre(pecaInicial, casaInicial, casaFinal, tabuleiro)
                         || pecaEUmCavalo(pecaInicial))
-                && movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal)) {
+                && movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal, corJogadorAtual)) {
             return true;
         }
 
@@ -70,9 +71,20 @@ public class Jogada {
         return peca instanceof Cavalo;
     }
 
-    private boolean movimentoValidoParaPeca(Peca peca, Casa inicial, Casa fim) {
-        return peca.movimentoValido(inicial.getLinha(), inicial.getColuna(),
-                fim.getLinha(), fim.getColuna());
+    private boolean pecaEUmPeao(Peca peca) {
+        return peca instanceof Peao;
+    }
+
+    private boolean movimentoValidoParaPeca(Peca peca, Casa inicial, Casa fim, String corJogadorAtual) {
+        int valido = peca.movimentoValido(inicial.getLinha(), inicial.getColuna(), fim.getLinha(), fim.getColuna());
+        
+        if (valido == 1) {
+            return true;
+        } else if (ehCaptura(fim, corJogadorAtual) && valido == 2) {
+            return true;
+        }
+
+        return false;
     }
 
     // Verifica se a jogada levou a uma situação de xeque

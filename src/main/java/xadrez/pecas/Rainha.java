@@ -18,15 +18,15 @@ public class Rainha extends Peca {
     }
 
     @Override
-    public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+    public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
         if(linhaO == linhaD && colunaD != colunaO) { //Movimento na Horizontal, só se muda coluna
-            return true;
+            return 1;
         }else if(linhaO != linhaD && colunaD == colunaO){ //Movimento na Vertical, só se muda linha
-            return true;
+            return 1;
         }else  if(Math.abs(linhaO - linhaD) == Math.abs(colunaO - colunaD)){ //Movimento na Diagonal, linha e coluna se mexem na mesma proporção
-            return true;
+            return 1;
         }else {
-            return false;
+            return 0;
         }
     }
 

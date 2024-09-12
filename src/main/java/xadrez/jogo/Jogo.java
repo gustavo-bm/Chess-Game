@@ -161,8 +161,6 @@ public class Jogo {
                 int colunaOrigemInt = colunaOrigem - 'a';
                 int colunaDestinoInt = colunaDestino - 'a';
 
-                System.out.println(colunaOrigem + colunaDestino);
-                System.out.println(colunaOrigemInt + colunaDestinoInt);
                 realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
             } else {
                 if (jogada.equals("parar")) {
@@ -195,7 +193,7 @@ public class Jogo {
 
             casaDestino.colocarPeca(casaOrigem.getPeca());
             casaOrigem.removerPeca();
-            jogadorAtual = jogadorPretas;
+            jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
             desenhoJogoAtualizado();
         }
     }
@@ -210,12 +208,12 @@ public class Jogo {
 
     public void desenhoJogoAtualizado() {
         System.out.println();
-        System.out.println("Peças capturadas de: " + jogadorPretas.getNome() + ": " + jogadorPretas.pecasCapturadas());
+        System.out.println("Peças capturadas por " + jogadorPretas.getNome() + ": " + jogadorBrancas.pecasCapturadas());
         System.out.println();
         System.out.println();
         System.out.println(tabuleiro.desenho());
         System.out.println();
-        System.out.println("Peças capturadas de: " + jogadorBrancas.getNome() + " " + jogadorBrancas.pecasCapturadas());
+        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + " " + jogadorPretas.pecasCapturadas());
     }
 
     // Retorna uma string com todos os dados relevantes do jogo para retomada

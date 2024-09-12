@@ -18,34 +18,34 @@ public class Rei extends Peca {
     }
 
     @Override
-    public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+    public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
         // Poderia fazer que a diferença das duas dimensoes deve ser menor ou igual a 1
         // em absoluto
         if ((linhaD == linhaO + 1) && colunaO == colunaD) {
-            return true;
+            return 1;
         } else if ((linhaD == linhaO - 1) && colunaO == colunaD) {
-            return true;
+            return 1;
         } else if ((linhaD == linhaO - 1) && (colunaD == colunaO + 1)) {
-            return true;
+            return 1;
         } else if ((linhaD == linhaO - 1) && (colunaD == colunaO - 1)) {
-            return true;
+            return 1;
         } else if (linhaD == linhaO && (colunaD == colunaO + 1)) {
-            return true;
+            return 1;
         } else if (linhaD == linhaO && (colunaD == colunaO - 1)) {
-            return true;
+            return 1;
         } else if ((linhaD == linhaO + 1) && colunaD == colunaO - 1) {
-            return true;
+            return 1;
         } else if ((linhaD == linhaO + 1) && colunaD == colunaO + 1) {
-            return true;
+            return 1;
         } else {
-            return false;
+            return 0;
         }
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
         StringBuilder caminho = new StringBuilder();
-        if (movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
+        if (movimentoValido(linhaO, colunaO, linhaD, colunaD) == 1) {
             caminho.append(linhaO).append(colunaO).append(linhaD).append(colunaD);
         } else {
             caminho.append("");

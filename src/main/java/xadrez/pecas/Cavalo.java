@@ -19,55 +19,60 @@ public class Cavalo extends Peca {
     }
 
     @Override
-    public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+    public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+        int colO = colunaO - 'a' + 1;
+        int colD = colunaD - 'a' + 1;
+
         if (linhaD == linhaO + 1 || linhaD == linhaO - 1) {
-            if (colunaD == colunaO + 2 || colunaD == colunaO - 2) {
-                return true;
+            if (colD == colO + 2 || colD == colO - 2) {
+                return 1;
             } else {
-                return false;
+                return 0;
             }
         } else if (linhaD == linhaO + 2 || linhaD == linhaO - 2) {
-            if (colunaD == colunaO + 1 || colunaD == colunaO - 1) {
-                return true;
+            if (colD == colO + 1 || colD == colO - 1) {
+                return 1;
             } else {
-                return false;
+                return 0;
             }
         } else {
-            return false;
+            return 0;
         }
-
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        StringBuilder caminhoCavalo = new StringBuilder();
+        if (movimentoValido(linhaO, colunaO, linhaD, colunaD) == 1) {
+            StringBuilder caminhoCavalo = new StringBuilder();
 
-        caminhoCavalo.append(linhaO).append(colunaO);
+            caminhoCavalo.append(linhaO).append(colunaO);
 
-        // Posicao Inicial
-        int linhaAtual = linhaO;
-        int colunaAtual = colunaO;
+            // Posicao Inicial
+            int linhaAtual = linhaO;
+            int colunaAtual = colunaO;
 
-        // Caso 2 linhas e 1 coluna
-        if (Math.abs(linhaD - linhaAtual) == 2 && Math.abs(colunaD - colunaAtual) == 1) {
-            linhaAtual += (linhaD - linhaAtual) / 2;
-            caminhoCavalo.append(linhaAtual).append(colunaAtual);
-            colunaAtual = colunaD;
-            caminhoCavalo.append(linhaAtual).append(colunaAtual);
+            // Caso 2 linhas e 1 coluna
+            if (Math.abs(linhaD - linhaAtual) == 2 && Math.abs(colunaD - colunaAtual) == 1) {
+                linhaAtual += (linhaD - linhaAtual) / 2;
+                caminhoCavalo.append(linhaAtual).append(colunaAtual);
+                colunaAtual = colunaD;
+                caminhoCavalo.append(linhaAtual).append(colunaAtual);
+            }
+            // Caso 1 linha e 2 colunas
+            else if (Math.abs(linhaD - linhaAtual) == 1 && Math.abs(colunaD - colunaAtual) == 2) {
+                colunaAtual += (char) ((colunaD - colunaAtual) / 2);
+                caminhoCavalo.append(linhaAtual).append(colunaAtual);
+                linhaAtual = linhaD;
+                caminhoCavalo.append(linhaAtual).append(colunaAtual);
+            }
+
+            // Movimento Final
+            caminhoCavalo.append(linhaD).append(colunaD);
+
+            return caminhoCavalo.toString();
         }
-        // Caso 1 linha e 2 colunas
-        else if (Math.abs(linhaD - linhaAtual) == 1 && Math.abs(colunaD - colunaAtual) == 2) {
-            colunaAtual += (char) ((colunaD - colunaAtual) / 2);
-            caminhoCavalo.append(linhaAtual).append(colunaAtual);
-            linhaAtual = linhaD;
-            caminhoCavalo.append(linhaAtual).append(colunaAtual);
-        }
 
-        // Movimento Final
-        caminhoCavalo.append(linhaD).append(colunaD);
-
-        // return
-        return caminhoCavalo.toString();
+        return "";
     }
 
 }
