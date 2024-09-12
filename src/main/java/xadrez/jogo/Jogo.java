@@ -51,7 +51,7 @@ public class Jogo {
     private Jogador jogadorPretas;
     private Jogador jogadorAtual;
     private String estado;
-    private String historicoJogadas;
+    private StringBuilder historicoJogadas;
 
     // Construtor da classe Jogo
     public Jogo() {
@@ -182,6 +182,9 @@ public class Jogo {
         Jogada jogada = new Jogada(casas[linhaO][colunaO], casas[linhaD][colunaD]);
 
         if (jogadaValida(jogada)) {
+            
+            historicoJogadas.append(jogadorAtual.informaJogada()).append('\n');
+
             Casa casaOrigem = casas[linhaO][colunaO];
             Casa casaDestino = casas[linhaD][colunaD];
 
@@ -223,7 +226,6 @@ public class Jogo {
          * Retorna uma string que representa o estado atual do jogo, incluindo o
          * histórico de jogadas.
          */
-
-        return ""; // Implementação necessária
+        return "Estado do jogo: " + this.estado + "\n\n" + jogadorBrancas.getNome() + " - Peças brancas\n" + jogadorPretas.getNome() + " - Peças pretas\n\n" + "Histórico de jogadas:\n" + this.historicoJogadas;
     }
 }

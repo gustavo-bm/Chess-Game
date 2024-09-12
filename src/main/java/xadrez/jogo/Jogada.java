@@ -2,6 +2,7 @@ package main.java.xadrez.jogo;
 
 import main.java.xadrez.pecas.Cavalo;
 import main.java.xadrez.pecas.Peao;
+import main.java.xadrez.pecas.Rei;
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Caminho;
 import main.java.xadrez.tabuleiro.Casa;
@@ -88,11 +89,53 @@ public class Jogada {
     }
 
     // Verifica se a jogada levou a uma situação de xeque
-    public boolean ehXeque() {
-        /*
+     /*
          * A função deve verificar se o rei do oponente está em xeque após a jogada.
          */
-        return false; // Implementação necessária
+    public boolean ehXeque(TabuleiroXadrez tabuleiro, Jogador jogadorAtual) {//Talvez fique melhor usar um Objeto CasaAtual para percorrer
+       String corOponente;
+       
+       if(jogadorAtual.getCor().equals("branca")){
+            corOponente = "preta";
+       }else{
+            corOponente="branca";
+       }
+
+       Casa casaRei = null;
+       
+       //Achar a posição do Rei adversário
+       Casa[][] casas = tabuleiro.getCasas();
+       
+       for(int i = 0; i<8;i++){
+         for(int j=0; j<8;j++){
+            if(casas[i][j].getPeca() instanceof Rei && casas[i][j].getPeca().getCor().equals(corOponente)){
+                casaRei = casas[i][j];
+                break;
+            }
+        }
+        //Ja achei o Rei
+        if(casaRei!=null){
+            break;
+        }
+    }
+    //Percorri e não achei o rei
+    if(casaRei == null){
+        return false;
+    }
+        //vejo cada peça do tabuleiro e se for adversária verifico se tem o movimento para meu Rei
+        
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){  
+                Casa casaAtual = casas[i][j];
+                Peca pecaAtual = casaAtual.getPeca();
+                if(pecaAtual!=null && pecaAtual.getCor().equals(corOponente)){
+                    if(movimentoValidoParaPeca(pecaAtual, casaAtual, casaRei)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     // Verifica se a jogada levou a uma situação de xeque mate
