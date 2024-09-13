@@ -19,6 +19,7 @@ public class Jogador {
     private String cor;
     private ArrayList<Peca> pecasAtivas;
     private ArrayList<Peca> pecasCapturadas;
+    private boolean estaEmXeque;
     private int numPecasAtivas;
     private int numPecasCapturadas;
 
@@ -26,10 +27,19 @@ public class Jogador {
     public Jogador(String nome, String cor) {
         this.nome = nome;
         this.cor = cor;
+        this.estaEmXeque = false;
         this.pecasAtivas = new ArrayList<Peca>(16);
         this.pecasCapturadas = new ArrayList<Peca>(16);
         this.numPecasAtivas = 0;
         this.numPecasCapturadas = 0;
+    }
+
+    public void setEstaEmXeque(boolean xeque) {
+        estaEmXeque = xeque;
+    }
+
+    public boolean getEstaEmXeque() {
+        return estaEmXeque;
     }
 
     // Solicita ao jogador a jogada desejada e retorna a informação

@@ -1,11 +1,16 @@
 package main.java.xadrez.pecas;
 
 import main.java.xadrez.pecas.interfacePeca.Peca;
+import main.java.xadrez.tabuleiro.Casa;
 
 public class Rei extends Peca {
-
+    
     public Rei(String cor) {
         super(cor);
+    }
+
+    public void setCasaRei() {
+
     }
 
     @Override

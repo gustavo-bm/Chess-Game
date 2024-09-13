@@ -78,7 +78,7 @@ public class Jogada {
 
     private boolean movimentoValidoParaPeca(Peca peca, Casa inicial, Casa fim, String corJogadorAtual) {
         int valido = peca.movimentoValido(inicial.getLinha(), inicial.getColuna(), fim.getLinha(), fim.getColuna());
-        
+
         if (valido == 1) {
             return true;
         } else if (ehCaptura(fim, corJogadorAtual) && valido == 2) {
@@ -88,62 +88,126 @@ public class Jogada {
         return false;
     }
 
-    // Verifica se a jogada levou a uma situação de xeque
-     /*
-         * A função deve verificar se o rei do oponente está em xeque após a jogada.
-         */
-    public boolean ehXeque(TabuleiroXadrez tabuleiro, Jogador jogadorAtual) {//Talvez fique melhor usar um Objeto CasaAtual para percorrer
-       String corOponente;
-       
-       if(jogadorAtual.getCor().equals("branca")){
-            corOponente = "preta";
-       }else{
-            corOponente="branca";
-       }
+    // verifica se a jogada do jogador atual deixa o jogador adversario em xeque
+    public boolean ehXeque(TabuleiroXadrez tabuleiro, Jogador jogadorAtual, Jogador jogadorAdversario) {
+        Casa[][] casas = tabuleiro.getCasas();
+        Casa casaRei = null;
 
-       Casa casaRei = null;
-       
-       //Achar a posição do Rei adversário
-       Casa[][] casas = tabuleiro.getCasas();
-       
-       for(int i = 0; i<8;i++){
-         for(int j=0; j<8;j++){
-            if(casas[i][j].getPeca() instanceof Rei && casas[i][j].getPeca().getCor().equals(corOponente)){
-                casaRei = casas[i][j];
-                break;
+        // Achar a posição do Rei adversário
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaAtual = casas[i][j].getPeca();
+                if (pecaAtual instanceof Rei && pecaAtual.getCor().equals(jogadorAdversario.getCor())) {
+                    casaRei = casas[i][j];
+                    break;
+                }
             }
+            if (casaRei != null)
+                break;
         }
-        //Ja achei o Rei
-        if(casaRei!=null){
-            break;
+
+        if (casaRei == null) {
+            throw new IllegalStateException("O Rei do adversário não foi encontrado.");
         }
-    }
-    //Percorri e não achei o rei
-    if(casaRei == null){
-        return false;
-    }
-        //vejo cada peça do tabuleiro e se for adversária verifico se tem o movimento para meu Rei
-        
-        for(int i=0; i<8; i++){
-            for(int j=0; j<8; j++){  
-                Casa casaAtual = casas[i][j];
-                Peca pecaAtual = casaAtual.getPeca();
-                if(pecaAtual!=null && pecaAtual.getCor().equals(corOponente)){
-                    if(movimentoValidoParaPeca(pecaAtual, casaAtual, casaRei)){
-                        return true;
+
+        // Verificar se alguma peça do jogador atual pode capturar o Rei adversário
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaAtual = casas[i][j].getPeca();
+                if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAtual.getCor())) {
+                    if (ehCaptura(casaRei, jogadorAtual.getCor()) && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro) && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAtual.getCor())) {
+                        return false;
                     }
                 }
             }
         }
+
+        return true;
+    }
+
+    // verifica se a jogada do jogador atual em xeque o tira do xeque
+    public boolean saiDoXeque(TabuleiroXadrez tabuleiro, Jogador jogadorAtual, Jogador jogadorAdversario) {
+        Casa[][] casas = tabuleiro.getCasas();
+        Casa casaRei = null;
+
+        // Achar a posição do Rei do jogador atual
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaAtual = casas[i][j].getPeca();
+                if (pecaAtual instanceof Rei && pecaAtual.getCor().equals(jogadorAtual.getCor())) {
+                    casaRei = casas[i][j];
+                    break;
+                }
+            }
+            if (casaRei != null)
+                break;
+        }
+
+        if (casaRei == null) {
+            throw new IllegalStateException("O Rei do jogador atual não foi encontrado.");
+        }
+
+        // Verificar se alguma peça do adversário pode capturar o Rei após o movimento
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaAtual = casas[i][j].getPeca();
+                if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAdversario.getCor())) {
+                    if (ehCaptura(casaRei, jogadorAdversario.getCor()) && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro) && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAdversario.getCor())) {
+                        return false; // O jogador ainda está em xeque
+                    }
+                }
+            }
+        }
+
+        return true; // Saiu do xeque
+    }
+
+    // verifica se a jogada do jogador atual o coloca em xeque
+    public boolean entraEmXeque(TabuleiroXadrez tabuleiro, Jogador jogadorAtual, Jogador jogadorAdversario) {
+        Casa[][] casas = tabuleiro.getCasas();
+        Casa casaRei = null;
+
+        // Achar a posição do Rei do jogador atual
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaAtual = casas[i][j].getPeca();
+                if (pecaAtual instanceof Rei && pecaAtual.getCor().equals(jogadorAtual.getCor())) {
+                    casaRei = casas[i][j];
+                    break;
+                }
+            }
+            if (casaRei != null)
+                break;
+        }
+
+        if (casaRei == null) {
+            throw new IllegalStateException("O Rei do jogador atual não foi encontrado.");
+        }
+
+        // Verificar se alguma peça do adversário pode capturar o Rei após o movimento
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca pecaAtual = casas[i][j].getPeca();
+                if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAdversario.getCor())) {
+                    if (movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAtual.getCor())) {
+                        return true; // O jogador está em xeque
+                    }
+                }
+            }
+        }
+
         return false;
     }
 
     // Verifica se a jogada levou a uma situação de xeque mate
-    public boolean ehXequeMate() {
-        /*
-         * A função deve verificar se o rei do oponente está em xeque mate após a
-         * jogada.
-         */
+    /*
+     * A função deve verificar se o rei do oponente está em xeque mate após a
+     * jogada.
+     */
+    public boolean ehXequeMate(TabuleiroXadrez tabuleiro, Jogador jogador) {
+        // if (!ehXeque(tabuleiro, jogador)) {
+        // return false;
+        // }
         return false; // Implementação necessária
     }
 }

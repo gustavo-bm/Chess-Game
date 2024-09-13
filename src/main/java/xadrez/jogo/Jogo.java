@@ -96,7 +96,6 @@ public class Jogo {
             pecas[index++] = new Peao("BLACK");
         }
 
-        
         pecas[index++] = new Torre("WHITE");
         pecas[index++] = new Cavalo("WHITE");
         pecas[index++] = new Bispo("WHITE");
@@ -151,7 +150,6 @@ public class Jogo {
             }
 
             String jogada = jogadorAtual.informaJogada();
-            System.out.println(jogada);
 
             if (jogada.length() == 4) {
                 int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
@@ -162,6 +160,7 @@ public class Jogo {
                 int colunaDestinoInt = colunaDestino - 'a';
 
                 realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
+
             } else {
                 if (jogada.equals("parar")) {
                     estado = "inativo";
@@ -171,33 +170,60 @@ public class Jogo {
         }
     }
 
-    // Se a jogada for válida, atualiza o tabuleiro e a situação do jogo
     public void realizarJogada(int linhaO, int colunaO, int linhaD, int colunaD) {
-        /*
-         * Atualiza o tabuleiro com a jogada do jogador -> mudando a peça de lugar após
-         * a jogada ter sido efetivamente validada
-         * Altera o estado do jogo, atualiza as peças capturadas.
-         */
-
         Jogada jogada = new Jogada(casas[linhaO][colunaO], casas[linhaD][colunaD]);
+        Jogador jogadorAdversario = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
+
+        Casa casaOrigem = casas[linhaO][colunaO];
+        Casa casaDestino = casas[linhaD][colunaD];
+        Peca pecaOrigem = casaOrigem.getPeca();
+        Peca pecaDestino = casaDestino.getPeca();
+
+        boolean confirmarJogada = false;
+        boolean captura = false;
 
         if (jogadaValida(jogada)) {
-            
-            historicoJogadas.append(jogadorAtual.informaJogada()).append('\n');
+            casaOrigem.removerPeca();
+            casaDestino.colocarPeca(pecaOrigem);
 
-            Casa casaOrigem = casas[linhaO][colunaO];
-            Casa casaDestino = casas[linhaD][colunaD];
-
-            if (jogada.ehCaptura(casas[linhaD][colunaD], jogadorAtual.getCor())) {
-                jogadorAtual.capturarPeca(casaDestino.getPeca());
-                casaDestino.removerPeca();
-                desenhoJogoAtualizado();
+            if (jogada.ehCaptura(casaDestino, jogadorAtual.getCor())) {
+                captura = true;
             }
 
-            casaDestino.colocarPeca(casaOrigem.getPeca());
-            casaOrigem.removerPeca();
-            jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
-            desenhoJogoAtualizado();
+            if (jogadorAtual.getEstaEmXeque()) {
+                if (jogada.saiDoXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
+                    jogadorAtual.setEstaEmXeque(false);
+                    confirmarJogada = true;
+                } else {
+                    System.out.println("Informe uma jogada para sair do xeque.");
+                    confirmarJogada = false;
+                }
+            } else {
+                confirmarJogada = true;
+            }
+
+            if (jogada.ehXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
+                jogadorAdversario.setEstaEmXeque(true);
+                System.out.println("Xeque!");
+                confirmarJogada = true;
+            }
+
+            if (!jogadorAtual.getEstaEmXeque() && jogada.entraEmXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
+                System.out.println("A jogada informada te coloca em xeque!");
+                confirmarJogada = false;
+            }
+
+            if (confirmarJogada) {
+                if (captura) {
+                    jogadorAtual.capturarPeca(pecaDestino);
+                }
+                System.out.println("Jogada realizada.");
+                jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
+                desenhoJogoAtualizado();
+            } else {
+                casaOrigem.colocarPeca(pecaOrigem);
+                casaDestino.removerPeca();
+            }
         }
     }
 
@@ -226,6 +252,7 @@ public class Jogo {
          * Retorna uma string que representa o estado atual do jogo, incluindo o
          * histórico de jogadas.
          */
-        return "Estado do jogo: " + this.estado + "\n\n" + jogadorBrancas.getNome() + " - Peças brancas\n" + jogadorPretas.getNome() + " - Peças pretas\n\n" + "Histórico de jogadas:\n" + this.historicoJogadas;
+        return "Estado do jogo: " + this.estado + "\n\n" + jogadorBrancas.getNome() + " - Peças brancas\n"
+                + jogadorPretas.getNome() + " - Peças pretas\n\n" + "Histórico de jogadas:\n" + this.historicoJogadas;
     }
 }
