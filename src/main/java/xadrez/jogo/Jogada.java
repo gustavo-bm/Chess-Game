@@ -116,13 +116,13 @@ public class Jogada {
                 Peca pecaAtual = casas[i][j].getPeca();
                 if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAtual.getCor())) {
                     if (ehCaptura(casaRei, jogadorAtual.getCor()) && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro) && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAtual.getCor())) {
-                        return false;
+                        return true;
                     }
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     // verifica se a jogada do jogador atual em xeque o tira do xeque
