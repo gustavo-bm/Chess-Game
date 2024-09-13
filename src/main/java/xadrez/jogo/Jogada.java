@@ -43,6 +43,15 @@ public class Jogada {
             return true;
         }
 
+        System.out.println("Posições dentro do limite: " + posicoesDentroDoLimite(tabuleiro, casaInicial, casaFinal));
+        System.out.println("Peça pertence ao jogador: " + pecaPertenceAoJogador(pecaInicial, corJogadorAtual));
+        System.out.println("Destino livre ou é captura: "
+                + (destinoLivre(casaFinal, corJogadorAtual) || ehCaptura(casaFinal, corJogadorAtual)));
+        System.out.println("Caminho está livre ou é um cavalo: "
+                + (caminhoEstaLivre(pecaInicial, casaInicial, casaFinal, tabuleiro) || pecaEUmCavalo(pecaInicial)));
+        System.out.println("Movimento válido para a peça: "
+                + movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal, corJogadorAtual));
+
         return false;
     }
 
@@ -115,7 +124,9 @@ public class Jogada {
             for (int j = 0; j < 8; j++) {
                 Peca pecaAtual = casas[i][j].getPeca();
                 if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAtual.getCor())) {
-                    if (ehCaptura(casaRei, jogadorAtual.getCor()) && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro) && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAtual.getCor())) {
+                    if (ehCaptura(casaRei, jogadorAtual.getCor())
+                            && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro)
+                            && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAtual.getCor())) {
                         return true;
                     }
                 }
@@ -152,7 +163,9 @@ public class Jogada {
             for (int j = 0; j < 8; j++) {
                 Peca pecaAtual = casas[i][j].getPeca();
                 if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAdversario.getCor())) {
-                    if (ehCaptura(casaRei, jogadorAdversario.getCor()) && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro) && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAdversario.getCor())) {
+                    if (ehCaptura(casaRei, jogadorAdversario.getCor())
+                            && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro)
+                            && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAdversario.getCor())) {
                         return false; // O jogador ainda está em xeque
                     }
                 }
@@ -189,7 +202,9 @@ public class Jogada {
             for (int j = 0; j < 8; j++) {
                 Peca pecaAtual = casas[i][j].getPeca();
                 if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAdversario.getCor())) {
-                    if (movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAtual.getCor())) {
+                    if (ehCaptura(casaRei, jogadorAdversario.getCor())
+                    && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro)
+                    && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogadorAdversario.getCor())) {
                         return true; // O jogador está em xeque
                     }
                 }

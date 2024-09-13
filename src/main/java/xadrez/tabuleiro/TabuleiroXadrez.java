@@ -38,7 +38,7 @@ public class TabuleiroXadrez {
     }
 
     public boolean noLimite(int linha, char coluna) {
-        return linha >= 0 && linha <= 7 && coluna >= 'a' && coluna <= 'h';
+        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
     }
 
     public String desenho() {

@@ -75,9 +75,15 @@ public class Gerenciador {
         casas[0][0].colocarPeca(torre);
 
         Peca rainha = new Rainha("BLACK");
-        Peca cavalo = new Cavalo("BLACK");
+       
         System.out.println("caminho da rainha: " + rainha.caminho(1, 'a', 8, 'h'));
-        System.out.println("caminho do cavalo: " + cavalo.caminho(1, 'a', 3, 'b'));
+
+        String caminhoCavalo = cavalo.caminho(8, 'b', 6, 'c');
+        System.out.println("caminho do cavalo: " + caminhoCavalo);
+
+        casas[7][1].colocarPeca(cavalo);
+        Caminho caminho = new Caminho(casas[7][1], casas[5][2]);
+        System.out.println(caminho.estaLivre(caminhoCavalo, tabuleiro1));
 
         System.out.println(tabuleiro1.desenho());
     }
@@ -101,17 +107,62 @@ public class Gerenciador {
         System.out.println("Jogada4 válida: " + jogada4.ehValida(tabuleiro1, jogador1)); // true
     }
 
+    private void testarCavalo() {
+        Jogador jogador = new Jogador("gu", "BLACK");
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez();
+        Casa[][] casas = tabuleiro1.getCasas();
+        Peca cavalo = new Cavalo("BLACK");
+
+        String caminhoCavalo = cavalo.caminho(8, 'b', 6, 'c');
+        System.out.println("caminho do cavalo: " + caminhoCavalo);
+
+        casas[7][1].colocarPeca(cavalo);
+        Caminho caminho = new Caminho(casas[7][1], casas[5][2]);
+        System.out.print("Caminho livre:");
+        System.out.println(caminho.estaLivre(caminhoCavalo, tabuleiro1));
+
+        Jogada jogadaCavalo = new Jogada(casas[7][1], casas[5][2]);
+        System.out.print("Jogada valida? ");
+        System.out.println(jogadaCavalo.ehValida(tabuleiro1, jogador));
+
+        System.out.println(tabuleiro1.desenho());
+
+    }
+
+    private void testarRainha() {
+        Jogador jogador = new Jogador("gu", "BLACK");
+        TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez();
+        Casa[][] casas = tabuleiro1.getCasas();
+        Peca rainha = new Rainha("BLACK");
+
+        String caminhoRainha = rainha.caminho(1, 'a', 6, 'f');
+        System.out.println("caminho da rainha: " + caminhoRainha);
+
+        casas[0][0].colocarPeca(rainha);
+        Caminho caminho = new Caminho(casas[0][0], casas[5][5]);
+        System.out.print("Caminho livre:");
+        System.out.println(caminho.estaLivre(caminhoRainha, tabuleiro1));
+
+        Jogada jogadaRainha = new Jogada(casas[0][0], casas[5][5]);
+        System.out.print("Jogada valida? ");
+        System.out.println(jogadaRainha.ehValida(tabuleiro1, jogador));
+
+        System.out.println(tabuleiro1.desenho());
+        
+    }
+
     private void testarJogo() {
         Jogo jogo = new Jogo();
         jogo.iniciarJogo();
-        jogo.desenhoJogoAtualizado();
     }
 
     public void teste() {
         // testarTorre();
-        //testarColocacaoDePecasNoTabuleiro();
+        // testarColocacaoDePecasNoTabuleiro();
         // testarJogadorEJogadas();
         // testarTabuleiroComEsemPecas();
+        // testarCavalo();
+        // testarRainha();
         testarJogo();
     }
 

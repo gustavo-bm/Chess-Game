@@ -53,7 +53,6 @@ public class Jogo {
     private String estado;
     private StringBuilder historicoJogadas;
 
-    // Construtor da classe Jogo
     public Jogo() {
         this.tabuleiro = new TabuleiroXadrez();
         this.casas = tabuleiro.getCasas();
@@ -180,7 +179,6 @@ public class Jogo {
         Peca pecaDestino = casaDestino.getPeca();
 
         boolean confirmarJogada = false;
-        boolean saiuDoXeque = false;
         boolean captura = false;
 
         if (jogadaValida(jogada)) {
@@ -210,7 +208,7 @@ public class Jogo {
                 confirmarJogada = true;
             }
 
-            if (saiuDoXeque && !jogadorAtual.getEstaEmXeque() && jogada.entraEmXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
+            if (!jogadorAtual.getEstaEmXeque() && jogada.entraEmXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
                 System.out.println("A jogada informada te coloca em xeque!");
                 confirmarJogada = false;
             }
