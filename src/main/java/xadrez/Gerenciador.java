@@ -71,6 +71,8 @@ public class Gerenciador {
         TabuleiroXadrez tabuleiro1 = new TabuleiroXadrez();
         Casa[][] casas = tabuleiro1.getCasas();
 
+        Peca cavalo = new Cavalo("WHITE");
+
         Peca torre = new Torre("WHITE");
         casas[0][0].colocarPeca(torre);
 
