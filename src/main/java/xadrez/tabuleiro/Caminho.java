@@ -1,7 +1,8 @@
 package main.java.xadrez.tabuleiro;
 
 /**
- * O caminho tem a sequência das casas e informa sobre a posição inicial, a posição final e a situação do caminho.
+ * O caminho tem a sequência das casas e informa sobre a posição inicial, a
+ * posição final e a situação do caminho.
  */
 public class Caminho {
     private Casa casaInicial;
@@ -12,20 +13,31 @@ public class Caminho {
         this.casaFinal = casaFinal;
     }
 
-    // Retorna se todas as casas do caminho estão livres, exceto a inicial e a final
     public boolean estaLivre(String caminho, TabuleiroXadrez tabuleiro) {
         Casa[][] casas = tabuleiro.getCasas();
         int length = caminho.length();
-    
-        for (int i = 0; i < length - 2; i += 2) {
+
+        // Verifica se o caminho é válido (mínimo de 4 caracteres: origem e destino)
+        if (length < 4) {
+            return true; // Não há casas intermediárias
+        }
+
+        // Percorre as casas intermediárias, ignorando a primeira e a última casa
+        for (int i = 2; i < length - 2; i += 2) {
             int linha = Character.getNumericValue(caminho.charAt(i)) - 1;
             int coluna = caminho.charAt(i + 1) - 'a';
-    
-            if (i != 0 && i != length - 2 && !casas[linha][coluna].estaLivre()) {
+
+            // Verifica se os índices estão dentro do limite do tabuleiro
+            if (linha < 0 || linha >= casas.length || coluna < 0 || coluna >= casas[0].length) {
+                throw new IndexOutOfBoundsException("Posição fora dos limites do tabuleiro: " + linha + ", " + coluna);
+            }
+
+            // Verifica se a casa não está livre
+            if (!casas[linha][coluna].estaLivre()) {
                 return false;
             }
         }
-    
+
         return true;
     }
 

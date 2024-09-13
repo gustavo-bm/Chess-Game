@@ -59,10 +59,6 @@ public class Jogador {
 
     // Retorna uma string com os desenhos das peças capturadas
     public String pecasCapturadas() {
-        /*
-         * Retorna uma string com os desenhos das peças que foram capturadas pelo
-         * jogador.
-         */
         StringBuilder resultado = new StringBuilder();
 
         for (Peca peca : pecasCapturadas) {
@@ -74,26 +70,17 @@ public class Jogador {
 
     // Adiciona uma peça capturada ao vetor de peças capturadas
     public void capturarPeca(Peca peca) {
-        /*
-         * Adiciona a peça capturada ao vetor de peças capturadas e remove a peça do
-         * vetor de peças ativas.
-         */
         pecasCapturadas.add(peca);
+        pecasAtivas.remove(peca);
     }
 
     // Remove uma peça do vetor de peças ativas
     public void removerPeca(Peca peca) {
-        /*
-         * Remove a peça do vetor de peças ativas.
-         */
         pecasAtivas.remove(peca);
     }
 
     // Adiciona uma peça ao vetor de peças ativas
     public void adicionarPeca(Peca peca) {
-        /*
-         * Adiciona a peça ao vetor de peças ativas.
-         */
         pecasAtivas.add(peca);
     }
 

@@ -184,12 +184,13 @@ public class Jogo {
         boolean captura = false;
 
         if (jogadaValida(jogada)) {
-            casaOrigem.removerPeca();
-            casaDestino.colocarPeca(pecaOrigem);
 
             if (jogada.ehCaptura(casaDestino, jogadorAtual.getCor())) {
                 captura = true;
             }
+
+            casaOrigem.removerPeca();
+            casaDestino.colocarPeca(pecaOrigem);
 
             if (jogadorAtual.getEstaEmXeque()) {
                 if (jogada.saiDoXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
@@ -217,6 +218,7 @@ public class Jogo {
             if (confirmarJogada) {
                 if (captura) {
                     jogadorAtual.capturarPeca(pecaDestino);
+                    System.out.println("Peça capturada: " + pecaDestino.desenho());
                 }
                 System.out.println("Jogada realizada.");
                 jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
@@ -243,7 +245,7 @@ public class Jogo {
         System.out.println();
         System.out.println(tabuleiro.desenho());
         System.out.println();
-        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + " " + jogadorPretas.pecasCapturadas());
+        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + ": " + jogadorPretas.pecasCapturadas());
     }
 
     // Retorna uma string com todos os dados relevantes do jogo para retomada

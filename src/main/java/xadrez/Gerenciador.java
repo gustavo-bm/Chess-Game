@@ -4,6 +4,8 @@ import main.java.xadrez.jogo.Jogada;
 import main.java.xadrez.jogo.Jogador;
 import main.java.xadrez.jogo.Jogo;
 import main.java.xadrez.pecas.Bispo;
+import main.java.xadrez.pecas.Cavalo;
+import main.java.xadrez.pecas.Rainha;
 import main.java.xadrez.pecas.Torre;
 import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Caminho;
@@ -72,6 +74,11 @@ public class Gerenciador {
         Peca torre = new Torre("WHITE");
         casas[0][0].colocarPeca(torre);
 
+        Peca rainha = new Rainha("BLACK");
+        Peca cavalo = new Cavalo("BLACK");
+        System.out.println("caminho da rainha: " + rainha.caminho(1, 'a', 8, 'h'));
+        System.out.println("caminho do cavalo: " + cavalo.caminho(1, 'a', 3, 'b'));
+
         System.out.println(tabuleiro1.desenho());
     }
 
@@ -102,7 +109,7 @@ public class Gerenciador {
 
     public void teste() {
         // testarTorre();
-        // testarColocacaoDePecasNoTabuleiro();
+        //testarColocacaoDePecasNoTabuleiro();
         // testarJogadorEJogadas();
         // testarTabuleiroComEsemPecas();
         testarJogo();

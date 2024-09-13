@@ -42,36 +42,11 @@ public class Cavalo extends Peca {
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
+        // O cavalo se move diretamente, não precisa rastrear casas intermediárias
         if (movimentoValido(linhaO, colunaO, linhaD, colunaD) == 1) {
-            StringBuilder caminhoCavalo = new StringBuilder();
-
-            caminhoCavalo.append(linhaO).append(colunaO);
-
-            // Posicao Inicial
-            int linhaAtual = linhaO;
-            int colunaAtual = colunaO;
-
-            // Caso 2 linhas e 1 coluna
-            if (Math.abs(linhaD - linhaAtual) == 2 && Math.abs(colunaD - colunaAtual) == 1) {
-                linhaAtual += (linhaD - linhaAtual) / 2;
-                caminhoCavalo.append(linhaAtual).append(colunaAtual);
-                colunaAtual = colunaD;
-                caminhoCavalo.append(linhaAtual).append(colunaAtual);
-            }
-            // Caso 1 linha e 2 colunas
-            else if (Math.abs(linhaD - linhaAtual) == 1 && Math.abs(colunaD - colunaAtual) == 2) {
-                colunaAtual += (char) ((colunaD - colunaAtual) / 2);
-                caminhoCavalo.append(linhaAtual).append(colunaAtual);
-                linhaAtual = linhaD;
-                caminhoCavalo.append(linhaAtual).append(colunaAtual);
-            }
-
-            // Movimento Final
-            caminhoCavalo.append(linhaD).append(colunaD);
-
-            return caminhoCavalo.toString();
+            // Retorna apenas a posição inicial e final, já que o cavalo salta
+            return "" + linhaO + colunaO + linhaD + colunaD;
         }
-
         return "";
     }
 
