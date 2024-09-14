@@ -15,7 +15,7 @@ public class Arquivo {
   // metodo de salvar um arquivo, sendo o texto as jogadas
 
   // nao fazer ainda: metodo de consumir o arquivo e restaura o estado do jogo
-
+  // testesync
   private String caminhoArquivo;
 
   // Construtor que inicializa o caminho do arquivo
