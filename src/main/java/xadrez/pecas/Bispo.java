@@ -38,9 +38,13 @@ public class Bispo extends Peca {
             int qntPassos = Math.abs(difLinhas); // Pode ser das colunas não tem diferença;
 
             for (int i = 0; i <= qntPassos; i++) { // Se vai ser negativo ou positivo vai depender do sinal da diferença
-                int linhaAtual = linhaO + i * (difLinhas / qntPassos);// Em módulo estarei andando uma unidade;
-                char colunaAtual = (char) (colunaO + i * (difColunas / qntPassos));
-                caminhoPrint.append(linhaAtual).append(colunaAtual);
+                if (qntPassos != 0) {
+                    int linhaAtual = linhaO + i * (difLinhas / qntPassos); // Em módulo estarei andando uma unidade;
+                    char colunaAtual = (char) (colunaO + i * (difColunas / qntPassos));
+                    caminhoPrint.append(linhaAtual).append(colunaAtual);
+                } else {
+                    return "";
+                }
             }
         } else {
             return caminhoPrint.append("").toString();

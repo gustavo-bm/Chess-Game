@@ -50,6 +50,7 @@ public class Jogo {
     private Jogador jogadorBrancas;
     private Jogador jogadorPretas;
     private Jogador jogadorAtual;
+    private Jogador vencedor;
     private String estado;
     private StringBuilder historicoJogadas;
     private boolean ehXequeMate = false;
@@ -168,6 +169,8 @@ public class Jogo {
                 System.out.println("Erro: a jogada deve conter exatamente 4 caracteres.");
             }
         }
+
+        System.out.println("Jogo acabou! Vencedor: " + vencedor.getCor() + "\nParabéns, " + vencedor.getNome());
     }
 
     public void realizarJogada(int linhaO, int colunaO, int linhaD, int colunaD) {
@@ -182,6 +185,8 @@ public class Jogo {
         boolean confirmarJogada = false;
         boolean captura = false;
 
+        System.out.println(jogadorAtual.getEstaEmXeque());
+
         if (jogadaValida(jogada)) {
 
             if (jogada.ehCaptura(casaDestino, jogadorAtual.getCor())) {
@@ -192,11 +197,6 @@ public class Jogo {
             casaDestino.colocarPeca(pecaOrigem);
 
             if (jogadorAtual.getEstaEmXeque()) {
-                // checar se é xeque mate
-                if (jogada.ehXequeMate(tabuleiro, jogadorAdversario, casas)) {
-                    ehXequeMate = true;
-                }
-
                 if (jogada.saiDoXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
                     jogadorAtual.setEstaEmXeque(false);
                     confirmarJogada = true;
@@ -210,7 +210,15 @@ public class Jogo {
 
             if (jogada.ehXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
                 jogadorAdversario.setEstaEmXeque(true);
-                System.out.println("Xeque!");
+
+                // checar se é xeque mate
+                if (jogada.ehXequeMate(tabuleiro, jogadorAtual, jogadorAdversario, casas)) {
+                    System.out.println("Xeque-mate!");
+                    ehXequeMate = true;
+                    vencedor = jogadorAtual;
+                } else {
+                    System.out.println("Xeque!");
+                }
                 confirmarJogada = true;
             }
 
@@ -224,12 +232,18 @@ public class Jogo {
                     jogadorAtual.capturarPeca(pecaDestino);
                     System.out.println("Peça capturada: " + pecaDestino.desenho());
                 }
+
                 System.out.println("Jogada realizada.");
                 jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
                 desenhoJogoAtualizado();
             } else {
                 casaOrigem.colocarPeca(pecaOrigem);
-                casaDestino.removerPeca();
+                
+                if (captura) {
+                    casaDestino.colocarPeca(pecaDestino);
+                } else {
+                    casaDestino.removerPeca();
+                }
             }
 
         } else {
