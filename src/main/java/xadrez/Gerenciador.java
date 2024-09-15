@@ -3,6 +3,7 @@ package main.java.xadrez;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import main.java.xadrez.jogo.Jogada;
 import main.java.xadrez.jogo.Jogador;
@@ -46,7 +47,6 @@ import main.java.xadrez.tabuleiro.TabuleiroXadrez;
  * 1a3b
  * 4c2h
  * 3g7g
- * 
  */
 public class Gerenciador {
     private String caminhoArquivo;
@@ -183,8 +183,31 @@ public class Gerenciador {
 
     private void testarJogo() {
         Jogo jogo = new Jogo();
+
+        // antes de iniciar o jogo tradicionalmente, ver se o usuario quer carregar um jogo salvo
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Digite 1 se quer começar um jogo do zero ou 2 se deseja carregar um jogo salvo.");
+        int opcao = scanner.nextInt();
+
+        if (opcao == 1) {
+            jogo.iniciarJogo();
+        } else if (opcao == 2) {
+            System.out.println("Informe o nome do arquivo:");
+            caminhoArquivo = scanner.nextLine();
+
+            jogo.setEstado("inativo");
+            String infoJogo = restaurarJogo();
+
+            //começar da setima linha
+            //a cada linha, pegar a jogada, realizar ela
+            // repetir até o fim do arquivo
+            
+            //dps que fizer td
+            jogo.setEstado("ativo");
+            jogo.iniciaJogadas();
+
+        }
         
-        jogo.iniciarJogo();
 
         String estado = jogo.getEstado();
     }

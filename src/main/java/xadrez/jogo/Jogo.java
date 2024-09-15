@@ -62,6 +62,10 @@ public class Jogo {
         inicializarPecas();
     }
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public String getEstado() {
         return estado;
     }
@@ -172,6 +176,7 @@ public class Jogo {
                 if (jogada.equals("parar")) {
                     estado = "inativo";
                 }
+
                 System.out.println("Erro: a jogada deve conter exatamente 4 caracteres.");
             }
         }
@@ -248,7 +253,10 @@ public class Jogo {
                 }
 
                 jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
-                desenhoJogoAtualizado();
+
+                if (estado.equals("ativo")) {
+                    desenhoJogoAtualizado();
+                }
             } else {
                 casaOrigem.colocarPeca(pecaOrigem);
 
