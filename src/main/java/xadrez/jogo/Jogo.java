@@ -238,12 +238,12 @@ public class Jogo {
 
     public void desenhoJogoAtualizado() {
         System.out.println();
-        System.out.println("Peças capturadas por " + jogadorPretas.getNome() + ": " + jogadorBrancas.pecasCapturadas());
+        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + ": " + jogadorBrancas.pecasCapturadas());
         System.out.println();
         System.out.println();
         System.out.println(tabuleiro.desenho());
         System.out.println();
-        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + ": " + jogadorPretas.pecasCapturadas());
+        System.out.println("Peças capturadas por " + jogadorPretas.getNome() + ": " + jogadorPretas.pecasCapturadas());
     }
 
     // Retorna uma string com todos os dados relevantes do jogo para retomada

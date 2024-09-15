@@ -81,10 +81,6 @@ public class Jogada {
         return peca instanceof Cavalo;
     }
 
-    private boolean pecaEUmPeao(Peca peca) {
-        return peca instanceof Peao;
-    }
-
     private boolean movimentoValidoParaPeca(Peca peca, Casa inicial, Casa fim, String corJogadorAtual) {
         int valido = peca.movimentoValido(inicial.getLinha(), inicial.getColuna(), fim.getLinha(), fim.getColuna());
 
