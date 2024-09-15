@@ -187,7 +187,7 @@ public class Jogo {
             System.out.println("Jogo acabou! Vencedor: " + vencedor.getCor() + "\nParabéns, " + vencedor.getNome());
         } else {
             // salvar o arquivo
-
+            estado = "inativo";
         }
     }
 

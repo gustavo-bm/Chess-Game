@@ -51,6 +51,10 @@ import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 public class Gerenciador {
     private String caminhoArquivo;
 
+    public Gerenciador() {
+
+    }
+
     public Gerenciador(String caminhoArquivo) {
         this.caminhoArquivo = caminhoArquivo;
     }
@@ -184,13 +188,17 @@ public class Gerenciador {
     private void testarJogo() {
         Jogo jogo = new Jogo();
 
-        // antes de iniciar o jogo tradicionalmente, ver se o usuario quer carregar um jogo salvo
+        // antes de iniciar o jogo tradicionalmente, ver se o usuario quer carregar um
+        // jogo salvo
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite 1 se quer começar um jogo do zero ou 2 se deseja carregar um jogo salvo.");
         int opcao = scanner.nextInt();
 
         if (opcao == 1) {
             jogo.iniciarJogo();
+            if (jogo.getEstado() == "inativo") {
+                salvarJogo(jogo.registroJogo());
+            }
         } else if (opcao == 2) {
             System.out.println("Informe o nome do arquivo:");
             caminhoArquivo = scanner.nextLine();
@@ -198,16 +206,30 @@ public class Gerenciador {
             jogo.setEstado("inativo");
             String infoJogo = restaurarJogo();
 
-            //começar da setima linha
-            //a cada linha, pegar a jogada, realizar ela
-            // repetir até o fim do arquivo
+            // while (arquivo nao terminou) {
+            //     // começar da setima linha
+            // // a cada linha, pegar a jogada
+            // // String jogada = ler a linha do arquivo;
+            // // converte
+            // int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
+            // char colunaOrigem = jogada.charAt(1);
+            // int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
+            // char colunaDestino = jogada.charAt(3);
+            // int colunaOrigemInt = colunaOrigem - 'a';
+            // int colunaDestinoInt = colunaDestino - 'a';
+
+            // jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaOrigem, colunaDestinoInt);
+            // // vai pra proxima linha do arquivo
+            // }
+
             
-            //dps que fizer td
+
+            // repetir até o fim do arquivo
+
+            // dps que fizer td
             jogo.setEstado("ativo");
             jogo.iniciaJogadas();
-
         }
-        
 
         String estado = jogo.getEstado();
     }
