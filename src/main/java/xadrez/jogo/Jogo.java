@@ -72,23 +72,23 @@ public class Jogo {
 
     public void iniciarJogo() {
         Scanner scanner = new Scanner(System.in);
-
+    
         System.out.println("Digite os nomes dos jogadores.\n");
         System.out.print("Brancas: ");
         String nomeJogadorBrancas = scanner.nextLine();
-
+    
         System.out.print("Pretas: ");
         String nomeJogadorPretas = scanner.nextLine();
-
+    
         this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
         this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
-
-        // brancas começam o jogo
+    
+        // Brancas começam o jogo
         this.jogadorAtual = jogadorBrancas;
-
-        iniciaJogadas();
-        scanner.close();
+    
+        iniciaJogadas(scanner); // Passa o scanner para manter a leitura contínua
     }
+    
 
     private void inicializarPecas() {
         pecas = new Peca[32];
@@ -147,21 +147,20 @@ public class Jogo {
         }
     }
 
-    public void iniciaJogadas() {
+    public void iniciaJogadas(Scanner scanner) {
         System.out.println("\nBom jogo!\n");
         desenhoJogoAtualizado();
-
+    
         while (estado.equals("ativo") && !ehXequeMate) {
-
             System.out.print("Vez das ");
-            if (jogadorAtual.getCor() == "WHITE") {
+            if (jogadorAtual.getCor().equals("WHITE")) {
                 System.out.println("brancas.");
             } else {
                 System.out.println("pretas.");
             }
-
-            String jogada = jogadorAtual.informaJogada();
-
+    
+            String jogada = jogadorAtual.informaJogada(scanner);
+    
             if (jogada.length() == 4) {
                 int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
                 char colunaOrigem = jogada.charAt(1);
@@ -169,26 +168,26 @@ public class Jogo {
                 char colunaDestino = jogada.charAt(3);
                 int colunaOrigemInt = colunaOrigem - 'a';
                 int colunaDestinoInt = colunaDestino - 'a';
-
+    
                 realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
             } else {
                 if (jogada.equals("parar")) {
                     estado = "inativo";
+                    break; // Não fecha o scanner aqui
                 } else {
                     System.out.println("Erro: a jogada deve conter exatamente 4 caracteres.");
                 }
             }
         }
-
+    
         if (ehXequeMate) {
             estado = "finalizado";
             System.out.println("Xeque-mate!");
             System.out.println("Jogo acabou! Vencedor: " + vencedor.getCor() + "\nParabéns, " + vencedor.getNome());
         } else {
-            // salvar o arquivo
             estado = "inativo";
         }
-    }
+    }    
 
     public void realizarJogada(int linhaO, int colunaO, int linhaD, int colunaD) {
         Jogada jogada = new Jogada(casas[linhaO][colunaO], casas[linhaD][colunaD]);

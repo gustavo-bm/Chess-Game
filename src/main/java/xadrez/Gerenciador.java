@@ -196,68 +196,67 @@ public class Gerenciador {
 
     private void rodarJogo() {
         Jogo jogo = new Jogo();
-
-        // antes de iniciar o jogo tradicionalmente, ver se o usuario quer carregar um
-        // jogo salvo
+    
+        // Antes de iniciar o jogo tradicionalmente, ver se o usuário quer carregar um jogo salvo
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite 1 se quer começar um jogo do zero ou 2 se deseja carregar um jogo salvo.");
         int opcao = scanner.nextInt();
-
+    
         if (opcao == 1) {
             jogo.iniciarJogo();
-            if (jogo.getEstado() == "inativo") {
-                System.out.print("Informe o nome do arquivo que deseja recuperar:");
-                caminhoArquivo = scanner.nextLine();
-                System.out.println(caminhoArquivo);
-                salvarJogo(jogo.registroJogo());
+            if (jogo.getEstado().equals("inativo")) {
+                scanner.nextLine(); // Consumir a quebra de linha pendente do nextInt anterior
+                System.out.print("Informe o nome do arquivo que deseja recuperar: ");
+    
+                try {
+                    String nomeCaminhoArquivo = scanner.nextLine();
+                    caminhoArquivo = nomeCaminhoArquivo;
+                    System.out.println(caminhoArquivo);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         } else if (opcao == 2) {
-            System.out.println("Informe o nome do arquivo:");
-            caminhoArquivo = scanner.nextLine();
-
-            jogo.setEstado("inativo");
-
-            System.out.println("Informe o nome do arquivo:");
             scanner.nextLine(); // Consumir a quebra de linha pendente do nextInt anterior
+            System.out.println("Informe o nome do arquivo:");
             caminhoArquivo = scanner.nextLine();
-
+    
+            jogo.setEstado("inativo");
+    
             String infoJogo = restaurarJogo();
-
+    
             // Separar as linhas do conteúdo do arquivo
             String[] linhas = infoJogo.split("\n");
-
+    
             // Atribuir os nomes dos jogadores
-            // arrumar pra pegar o nome
             String nomeJogadorBrancas = linhas[0];
             String nomeJogadorPretas = linhas[1];
-
+    
             // Configurar os jogadores
             Jogador jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
             Jogador jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
-
+    
             // Começar da terceira linha para ler as jogadas
             for (int i = 6; i < linhas.length; i++) {
                 String jogada = linhas[i];
-
+    
                 // Convertendo a jogada para linha e coluna
                 int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
                 char colunaOrigem = jogada.charAt(1);
                 int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
                 char colunaDestino = jogada.charAt(3);
-
+    
                 int colunaOrigemInt = colunaOrigem - 'a';
                 int colunaDestinoInt = colunaDestino - 'a';
-
+    
                 // Realizar a jogada
                 jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
             }
-
+    
             // Definir o estado do jogo como ativo e continuar as jogadas
             jogo.setEstado("ativo");
-            jogo.iniciaJogadas();
+            jogo.iniciaJogadas(scanner);
         }
-
-        String estado = jogo.getEstado();
     }
 
     public void teste() {
