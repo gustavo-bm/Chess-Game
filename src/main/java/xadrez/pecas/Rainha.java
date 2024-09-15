@@ -66,7 +66,7 @@ public class Rainha extends Peca {
 
             char col = colunaO;
             int lin = linhaO;
-
+            cam.append(lin).append(col);
             while (lin != linhaD && col != colunaD) {
                 lin += dirLin;
                 col += dirCol;
