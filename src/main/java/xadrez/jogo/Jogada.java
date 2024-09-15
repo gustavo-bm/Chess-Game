@@ -8,15 +8,6 @@ import main.java.xadrez.tabuleiro.Caminho;
 import main.java.xadrez.tabuleiro.Casa;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
-/*
- * Uma jogada é criada a partir das informações do jogador que a está realizando, a posição inicial e posição final da jogada, 
- * mas deve manter o caminho com base nessas informações iniciais (veja o diagrama: mostra basicamente que a classe Caminho tem uma relação
- * de composição com relação à classe Jogada, ou seja, são criadas instâncias de objetos da classe Caminho aqui para acessar seus métodos e/ou
- * atributos).
- * 
- * Lembrar que cada peça é quem deve fornecer seu caminho (na forma de uma string) e identificar se o movimento é válido de acordo com sua forma
- *  de se movimentar. Uma vez criada, uma jogada não pode ser alterada.
- */
 public class Jogada {
     private Caminho caminho;
 
@@ -42,20 +33,6 @@ public class Jogada {
                 && movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal, corJogadorAtual)) {
             return true;
         }
-
-        // System.out.println("Posições dentro do limite: " +
-        // posicoesDentroDoLimite(tabuleiro, casaInicial, casaFinal));
-        // System.out.println("Peça pertence ao jogador: " +
-        // pecaPertenceAoJogador(pecaInicial, corJogadorAtual));
-        // System.out.println("Destino livre ou é captura: "
-        // + (destinoLivre(casaFinal, corJogadorAtual) || ehCaptura(casaFinal,
-        // corJogadorAtual)));
-        // System.out.println("Caminho está livre ou é um cavalo: "
-        // + (caminhoEstaLivre(pecaInicial, casaInicial, casaFinal, tabuleiro) ||
-        // pecaEUmCavalo(pecaInicial)));
-        // System.out.println("Movimento válido para a peça: "
-        // + movimentoValidoParaPeca(pecaInicial, casaInicial, casaFinal,
-        // corJogadorAtual));
 
         return false;
     }

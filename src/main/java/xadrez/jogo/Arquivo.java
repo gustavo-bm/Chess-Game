@@ -9,17 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Arquivo {
-  // atributo caminho do arquivo
-  // construtor que inicializa o nome do arquivo
-
-  // metodo de salvar um arquivo, sendo o texto as jogadas
-
-  // nao fazer ainda: metodo de consumir o arquivo e restaura o estado do jogo
 
   private String caminhoArquivo;
 
   // Construtor que inicializa o caminho do arquivo
-  public Arquivo(String caminhoArquivo) {
+  public void setCaminhoArquivo(String caminhoArquivo) {
     this.caminhoArquivo = caminhoArquivo;
   }
 

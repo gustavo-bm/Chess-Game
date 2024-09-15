@@ -40,12 +40,6 @@ public class Jogador {
 
     // Solicita ao jogador a jogada desejada e retorna a informação
     public String informaJogada(Scanner scanner) {
-        /*
-         * Solicita ao jogador que digite a jogada ou o código "parar" para interromper
-         * o jogo.
-         * Retorna uma string com a jogada ou o comando digitado pelo jogador.
-         */
-
         System.out.print("Informe a jogada: ");
         String jogada = scanner.nextLine();
 

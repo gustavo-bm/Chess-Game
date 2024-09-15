@@ -3,8 +3,10 @@ package main.java.xadrez;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import main.java.xadrez.jogo.Arquivo;
 import main.java.xadrez.jogo.Jogada;
 import main.java.xadrez.jogo.Jogador;
 import main.java.xadrez.jogo.Jogo;
@@ -17,74 +19,11 @@ import main.java.xadrez.tabuleiro.Caminho;
 import main.java.xadrez.tabuleiro.Casa;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
-/**
- * Classe que vai criar e disparar o jogo, permitindo ao usuário a escolha de
- * iniciar um jogo do zero, carregar um jogo a partir de um
- * arquivo texto, cujo nome seja fornecido pelo usuário e salvar um jogo após o
- * encerramento ou interrupção de uma partida,
- * também em um arquivo com nome escolhido pelo usuário. Nenhum controle do jogo
- * em si deve ser feito nessa classe.
- * Essa classe é a que contém o main, mas estejam atentos para separar as
- * funcionalidades da classe em métodos para uma melhor organização.
- * O main deve ser o mais enxuto possível.
- * Incluir também um método teste para incluir testes exaustivos das várias
- * classes executados ao longo do desenvolvimento
- * 
- * Observação: apenas a parte de comunicação com o usuário necessária para o
- * carregamento/salvamento de um jogo e das opções iniciais
- * deve ser feita nessa classe. Manipulação de arquivos será vista no roteiro 5.
- * 
- * Os arquivos para registro dos jogos devem ter o seguinte formato:
- * <Nome do Jogador 1 - peças brancas>
- * <Nome do Jogador 2 - peças pretas>
- * <Jogada 1>
- * <Jogada 2>
- * <Jogada 3>
- * …
- * 
- * Cada jogada tem a linha e coluna da casa inicial da jogada e a linha e coluna
- * da casa final, sem qualquer separação. Por exemplo:
- * 1a3b
- * 4c2h
- * 3g7g
- */
 public class Gerenciador {
     private String caminhoArquivo;
 
     public Gerenciador() {
 
-    }
-
-    public Gerenciador(String caminhoArquivo) {
-        this.caminhoArquivo = caminhoArquivo;
-    }
-
-    // Método para salvar o estado do jogo em um arquivo
-    public void salvarJogo(String registroJogo) {
-        if (caminhoArquivo == null || caminhoArquivo.isBlank()) {
-            System.out.println("Erro: Caminho do arquivo não foi definido.");
-            return;
-        }
-
-        System.out.println("Tentando salvar o jogo no arquivo: " + caminhoArquivo);
-
-        try {
-            Files.write(Paths.get(caminhoArquivo), registroJogo.getBytes());
-            System.out.println("Jogo salvo com sucesso.");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar o jogo: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    // Método para ler o estado do jogo de um arquivo e retornar seu conteúdo
-    public String restaurarJogo() {
-        try {
-            return Files.readString(Paths.get(caminhoArquivo));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     private void testarTorre() {
@@ -196,12 +135,22 @@ public class Gerenciador {
 
     private void rodarJogo() {
         Jogo jogo = new Jogo();
+        Arquivo arquivo = new Arquivo();
 
         // Antes de iniciar o jogo tradicionalmente, ver se o usuário quer carregar um
         // jogo salvo
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite 1 se quer começar um jogo do zero ou 2 se deseja carregar um jogo salvo.");
-        int opcao = scanner.nextInt();
+
+        int opcao = -1;
+
+        do {
+            System.out.println("Digite 1 se quer começar um jogo do zero ou 2 se deseja carregar um jogo salvo.");
+            try {
+                opcao = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+            }
+        } while (opcao != 1 && opcao != 2);
 
         if (opcao == 1) {
             jogo.iniciarJogo();
@@ -211,7 +160,8 @@ public class Gerenciador {
 
                 try {
                     caminhoArquivo = scanner.nextLine();
-                    salvarJogo(jogo.registroJogo());
+                    arquivo.setCaminhoArquivo(caminhoArquivo);
+                    arquivo.salvarJogo(jogo.registroJogo());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -220,10 +170,11 @@ public class Gerenciador {
             scanner.nextLine(); // Consumir quebra de linha pendente do nextInt anterior
             System.out.print("Informe o nome do arquivo que deseja recuperar: ");
             caminhoArquivo = scanner.nextLine();
+            arquivo.setCaminhoArquivo(caminhoArquivo);
 
             jogo.setJogoStatus("inativo");
 
-            String infoJogo = restaurarJogo();
+            String infoJogo = arquivo.restaurarJogo();
 
             // Separar as linhas do conteúdo do arquivo
             String[] linhas = infoJogo.split("\n");
@@ -234,7 +185,7 @@ public class Gerenciador {
             // Configurar os jogadores
             jogo.criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
 
-            // As jogadas começam a partir da quarta linha (índice 3)
+            // As jogadas começam a partir da sétima linha (índice 6) no registro do jogo
             for (int i = 6; i < linhas.length; i++) {
                 String jogada = linhas[i];
 
@@ -248,7 +199,6 @@ public class Gerenciador {
                     int colunaOrigemInt = colunaOrigem - 'a';
                     int colunaDestinoInt = colunaDestino - 'a';
 
-                    System.out.println(jogada);
                     jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt, jogada);
                 } else {
                     System.out.println("Erro na leitura da jogada: " + jogada);
@@ -273,6 +223,6 @@ public class Gerenciador {
 
     public static void main(String[] args) {
         Gerenciador gerenciador = new Gerenciador();
-        gerenciador.teste();
+        gerenciador.rodarJogo();
     }
 }

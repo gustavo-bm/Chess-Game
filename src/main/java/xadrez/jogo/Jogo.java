@@ -14,46 +14,17 @@ import main.java.xadrez.pecas.interfacePeca.Peca;
 import main.java.xadrez.tabuleiro.Casa;
 import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 
-/**
- * Essa classe é responsável pelo gerenciamento do jogo, controlando tudo o que
- * acontece. Essa classe contém um tabuleiro,
- * 2 jogadores e o conjunto de 32 peças disponíveis. O jogo sabe o estado em que
- * se encontra a cada momento (por exemplo: início do jogo,
- * xeque, xeque-mate). Sabe também de que jogador é a vez, controlando as
- * jogadas, de quem é a vez, as checagens, etc, sendo a classe
- * responsável por manter as informações na tela e solicitar ao jogador da vez
- * as informações necessárias para a jogada ou interrupção
- * do jogo. No início do jogo, também solicita a cada jogador o seu nome. Na
- * tela, além do tabuleiro, o Jogo deve manter visível as peças
- * de cada jogador que já foram capturadas, desenhadas do lado do tabuleiro
- * correspondente ao jogador.
- * 
- * A cada jogada solicitada por um jogador, o Jogo é a classe que dispara a
- * jogada checando se ela é válida, atualizando o tabuleiro,
- * a situação, o histórico de jogadas, a tela, a situação do jogo, das peças,
- * etc, usando sempre as chamadas de métodos das outras
- * classes que forem apropriados.
- * 
- * Todas as jogadas efetivamente realizadas devem ser registradas em um
- * histórico de jogadas que pode ser solicitado pelo Gerenciador
- * para armazenamento em arquivo ou visualização das jogadas.
- * 
- * A classe Jogo deve ter ao menos os métodos esboçados abaixo (eu, gu, ja
- * coloquei); talvez precise de mais métodos
- * 
- */
-
 public class Jogo {
-    private Peca[] pecas;
     private TabuleiroXadrez tabuleiro;
     private Casa[][] casas;
+    private Peca[] pecas;
     private Jogador jogadorBrancas;
     private Jogador jogadorPretas;
     private Jogador jogadorAtual;
     private Jogador vencedor;
+    private StringBuilder historicoJogadas;
     private String jogoStatus;
     private String estado;
-    private StringBuilder historicoJogadas;
 
     public Jogo() {
         this.tabuleiro = new TabuleiroXadrez();
@@ -90,10 +61,9 @@ public class Jogo {
     
         criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
     
-        iniciaJogadas(scanner);
+       iniciaJogadas(scanner);
     }
     
-
     private void inicializarPecas() {
         pecas = new Peca[32];
         int index = 0;
@@ -154,7 +124,7 @@ public class Jogo {
     public void iniciaJogadas(Scanner scanner) {
         System.out.println("\nBom jogo!\n");
         desenhoJogoAtualizado();
-    
+
         while (jogoStatus.equals("ativo") && !estado.equals("xeque-mate")) {
             System.out.print("Vez das ");
             if (jogadorAtual.getCor().equals("WHITE")) {
@@ -162,18 +132,24 @@ public class Jogo {
             } else {
                 System.out.println("pretas.");
             }
-    
+
             String movimento = jogadorAtual.informaJogada(scanner);
     
             if (movimento.length() == 4) {
-                int linhaOrigem = Character.getNumericValue(movimento.charAt(0)) - 1;
-                char colunaOrigem = movimento.charAt(1);
-                int linhaDestino = Character.getNumericValue(movimento.charAt(2)) - 1;
-                char colunaDestino = movimento.charAt(3);
-                int colunaOrigemInt = colunaOrigem - 'a';
-                int colunaDestinoInt = colunaDestino - 'a';
+                try {
+                    int linhaOrigem = Character.getNumericValue(movimento.charAt(0)) - 1;
+                    char colunaOrigem = movimento.charAt(1);
+                    int linhaDestino = Character.getNumericValue(movimento.charAt(2)) - 1;
+                    char colunaDestino = movimento.charAt(3);
+                    int colunaOrigemInt = colunaOrigem - 'a';
+                    int colunaDestinoInt = colunaDestino - 'a';
+
+                    realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt, movimento);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
     
-                realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt, movimento);
+                
             } else {
                 if (movimento.equals("parar")) {
                     jogoStatus = "inativo";
@@ -246,10 +222,13 @@ public class Jogo {
             if (confirmarJogada) {
                 if (captura) {
                     jogadorAtual.capturarPeca(pecaDestino);
-                    System.out.println("Peça capturada: " + pecaDestino.desenho());
+
+                    if (jogoStatus.equals("ativo")) {
+                        System.out.println("Peça capturada: " + pecaDestino.desenho());
+                    }
                 }
 
-                if (!jogadorAdversario.getEstaEmXeque()) {
+                if (!jogadorAdversario.getEstaEmXeque() && jogoStatus.equals("ativo")) {
                     System.out.println("Jogada realizada.");
                     historicoJogadas.append(movimento + "\n");
                 }
