@@ -199,7 +199,6 @@ public class Jogada {
                                     && movimentoValidoParaPeca(pecaAtual, casaOrigem, casaDestino,
                                             jogadorAdversario.getCor())) 
                             {
-                                // System.out.print(pecaAtual.desenho() + " ");
                                 
                                 // simulação do movimento
                                 Peca pecaCapturada = casaDestino.getPeca();

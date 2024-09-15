@@ -62,13 +62,18 @@ public class Jogo {
         inicializarPecas();
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
     public void iniciarJogo() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Digite o nome do jogador que utilizará as peças brancas: ");
+        System.out.println("Digite os nomes dos jogadores.\n");
+        System.out.print("Brancas: ");
         String nomeJogadorBrancas = scanner.nextLine();
 
-        System.out.print("Digite o nome do jogador que utilizará as peças pretas: ");
+        System.out.print("Pretas: ");
         String nomeJogadorPretas = scanner.nextLine();
 
         this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
@@ -139,9 +144,10 @@ public class Jogo {
     }
 
     public void iniciaJogadas() {
+        System.out.println("\nBom jogo!\n");
         desenhoJogoAtualizado();
 
-        while (estado.equals("ativo") && !ehXequeMate)  {
+        while (estado.equals("ativo") && !ehXequeMate) {
 
             System.out.print("Vez das ");
             if (jogadorAtual.getCor() == "WHITE") {
@@ -170,7 +176,14 @@ public class Jogo {
             }
         }
 
-        System.out.println("Jogo acabou! Vencedor: " + vencedor.getCor() + "\nParabéns, " + vencedor.getNome());
+        if (ehXequeMate) {
+            estado = "finalizado";
+            System.out.println("Xeque-mate!");
+            System.out.println("Jogo acabou! Vencedor: " + vencedor.getCor() + "\nParabéns, " + vencedor.getNome());
+        } else {
+            // salvar o arquivo
+
+        }
     }
 
     public void realizarJogada(int linhaO, int colunaO, int linhaD, int colunaD) {
@@ -184,8 +197,6 @@ public class Jogo {
 
         boolean confirmarJogada = false;
         boolean captura = false;
-
-        System.out.println(jogadorAtual.getEstaEmXeque());
 
         if (jogadaValida(jogada)) {
 
@@ -213,7 +224,6 @@ public class Jogo {
 
                 // checar se é xeque mate
                 if (jogada.ehXequeMate(tabuleiro, jogadorAtual, jogadorAdversario, casas)) {
-                    System.out.println("Xeque-mate!");
                     ehXequeMate = true;
                     vencedor = jogadorAtual;
                 } else {
@@ -233,12 +243,15 @@ public class Jogo {
                     System.out.println("Peça capturada: " + pecaDestino.desenho());
                 }
 
-                System.out.println("Jogada realizada.");
+                if (!jogadorAdversario.getEstaEmXeque()) {
+                    System.out.println("Jogada realizada.");
+                }
+
                 jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
                 desenhoJogoAtualizado();
             } else {
                 casaOrigem.colocarPeca(pecaOrigem);
-                
+
                 if (captura) {
                     casaDestino.colocarPeca(pecaDestino);
                 } else {
@@ -252,21 +265,18 @@ public class Jogo {
     }
 
     private boolean jogadaValida(Jogada jogada) {
-        /*
-         * Verifica se a jogada do jogador é válida com base nas regras do jogo.
-         * Verifica se a peça pode se mover para a nova posição e se a jogada é legal.
-         */
         return jogada.ehValida(tabuleiro, jogadorAtual);
     }
 
     public void desenhoJogoAtualizado() {
+        System.out.println("====================================");
         System.out.println();
-        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + ": " + jogadorBrancas.pecasCapturadas());
-        System.out.println();
+        System.out.println("Peças capturadas por " + jogadorBrancas.getNome() + ":\n" + jogadorBrancas.pecasCapturadas());
         System.out.println();
         System.out.println(tabuleiro.desenho());
         System.out.println();
-        System.out.println("Peças capturadas por " + jogadorPretas.getNome() + ": " + jogadorPretas.pecasCapturadas());
+        System.out.println("Peças capturadas por " + jogadorPretas.getNome() + ":\n" + jogadorPretas.pecasCapturadas() + "\n");
+        System.out.println("====================================");
     }
 
     // Retorna uma string com todos os dados relevantes do jogo para retomada

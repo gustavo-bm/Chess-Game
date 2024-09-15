@@ -1,5 +1,9 @@
 package main.java.xadrez;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import main.java.xadrez.jogo.Jogada;
 import main.java.xadrez.jogo.Jogador;
 import main.java.xadrez.jogo.Jogo;
@@ -45,6 +49,30 @@ import main.java.xadrez.tabuleiro.TabuleiroXadrez;
  * 
  */
 public class Gerenciador {
+    private String caminhoArquivo;
+
+    public Gerenciador(String caminhoArquivo) {
+        this.caminhoArquivo = caminhoArquivo;
+    }
+
+    // Método para salvar o estado do jogo em um arquivo
+    public void salvarJogo(String registroJogo) {
+        try {
+            Files.write(Paths.get(caminhoArquivo), registroJogo.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para ler o estado do jogo de um arquivo e retornar seu conteúdo
+    public String restaurarJogo() {
+        try {
+            return Files.readString(Paths.get(caminhoArquivo));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     private void testarTorre() {
         Peca torre = new Torre("WHITE");
@@ -77,7 +105,7 @@ public class Gerenciador {
         casas[0][0].colocarPeca(torre);
 
         Peca rainha = new Rainha("BLACK");
-       
+
         System.out.println("caminho da rainha: " + rainha.caminho(1, 'a', 8, 'h'));
 
         String caminhoCavalo = cavalo.caminho(8, 'b', 6, 'c');
@@ -150,12 +178,15 @@ public class Gerenciador {
         System.out.println(jogadaRainha.ehValida(tabuleiro1, jogador));
 
         System.out.println(tabuleiro1.desenho());
-        
+
     }
 
     private void testarJogo() {
         Jogo jogo = new Jogo();
+        
         jogo.iniciarJogo();
+
+        String estado = jogo.getEstado();
     }
 
     public void teste() {
