@@ -52,6 +52,7 @@ public class Jogo {
     private Jogador jogadorAtual;
     private String estado;
     private StringBuilder historicoJogadas;
+    private boolean ehXequeMate = false;
 
     public Jogo() {
         this.tabuleiro = new TabuleiroXadrez();
@@ -139,7 +140,7 @@ public class Jogo {
     public void iniciaJogadas() {
         desenhoJogoAtualizado();
 
-        while (estado.equals("ativo")) {
+        while (estado.equals("ativo") && !ehXequeMate)  {
 
             System.out.print("Vez das ");
             if (jogadorAtual.getCor() == "WHITE") {
@@ -191,6 +192,11 @@ public class Jogo {
             casaDestino.colocarPeca(pecaOrigem);
 
             if (jogadorAtual.getEstaEmXeque()) {
+                // checar se é xeque mate
+                if (jogada.ehXequeMate(tabuleiro, jogadorAdversario, casas)) {
+                    ehXequeMate = true;
+                }
+
                 if (jogada.saiDoXeque(tabuleiro, jogadorAtual, jogadorAdversario)) {
                     jogadorAtual.setEstaEmXeque(false);
                     confirmarJogada = true;
@@ -225,6 +231,9 @@ public class Jogo {
                 casaOrigem.colocarPeca(pecaOrigem);
                 casaDestino.removerPeca();
             }
+
+        } else {
+            System.out.println("Jogada inválida.");
         }
     }
 
