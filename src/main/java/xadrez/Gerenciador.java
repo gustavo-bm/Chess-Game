@@ -61,9 +61,18 @@ public class Gerenciador {
 
     // Método para salvar o estado do jogo em um arquivo
     public void salvarJogo(String registroJogo) {
+        if (caminhoArquivo == null || caminhoArquivo.isBlank()) {
+            System.out.println("Erro: Caminho do arquivo não foi definido.");
+            return;
+        }
+
+        System.out.println("Tentando salvar o jogo no arquivo: " + caminhoArquivo);
+
         try {
             Files.write(Paths.get(caminhoArquivo), registroJogo.getBytes());
+            System.out.println("Jogo salvo com sucesso.");
         } catch (IOException e) {
+            System.out.println("Erro ao salvar o jogo: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -185,7 +194,7 @@ public class Gerenciador {
 
     }
 
-    private void testarJogo() {
+    private void rodarJogo() {
         Jogo jogo = new Jogo();
 
         // antes de iniciar o jogo tradicionalmente, ver se o usuario quer carregar um
@@ -197,6 +206,9 @@ public class Gerenciador {
         if (opcao == 1) {
             jogo.iniciarJogo();
             if (jogo.getEstado() == "inativo") {
+                System.out.print("Informe o nome do arquivo que deseja recuperar:");
+                caminhoArquivo = scanner.nextLine();
+                System.out.println(caminhoArquivo);
                 salvarJogo(jogo.registroJogo());
             }
         } else if (opcao == 2) {
@@ -204,29 +216,43 @@ public class Gerenciador {
             caminhoArquivo = scanner.nextLine();
 
             jogo.setEstado("inativo");
+
+            System.out.println("Informe o nome do arquivo:");
+            scanner.nextLine(); // Consumir a quebra de linha pendente do nextInt anterior
+            caminhoArquivo = scanner.nextLine();
+
             String infoJogo = restaurarJogo();
 
-            // while (arquivo nao terminou) {
-            //     // começar da setima linha
-            // // a cada linha, pegar a jogada
-            // // String jogada = ler a linha do arquivo;
-            // // converte
-            // int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
-            // char colunaOrigem = jogada.charAt(1);
-            // int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
-            // char colunaDestino = jogada.charAt(3);
-            // int colunaOrigemInt = colunaOrigem - 'a';
-            // int colunaDestinoInt = colunaDestino - 'a';
+            // Separar as linhas do conteúdo do arquivo
+            String[] linhas = infoJogo.split("\n");
 
-            // jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaOrigem, colunaDestinoInt);
-            // // vai pra proxima linha do arquivo
-            // }
+            // Atribuir os nomes dos jogadores
+            // arrumar pra pegar o nome
+            String nomeJogadorBrancas = linhas[0];
+            String nomeJogadorPretas = linhas[1];
 
-            
+            // Configurar os jogadores
+            Jogador jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
+            Jogador jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
 
-            // repetir até o fim do arquivo
+            // Começar da terceira linha para ler as jogadas
+            for (int i = 6; i < linhas.length; i++) {
+                String jogada = linhas[i];
 
-            // dps que fizer td
+                // Convertendo a jogada para linha e coluna
+                int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
+                char colunaOrigem = jogada.charAt(1);
+                int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
+                char colunaDestino = jogada.charAt(3);
+
+                int colunaOrigemInt = colunaOrigem - 'a';
+                int colunaDestinoInt = colunaDestino - 'a';
+
+                // Realizar a jogada
+                jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
+            }
+
+            // Definir o estado do jogo como ativo e continuar as jogadas
             jogo.setEstado("ativo");
             jogo.iniciaJogadas();
         }
@@ -241,7 +267,7 @@ public class Gerenciador {
         // testarTabuleiroComEsemPecas();
         // testarCavalo();
         // testarRainha();
-        testarJogo();
+        rodarJogo();
     }
 
     public static void main(String[] args) {

@@ -171,13 +171,12 @@ public class Jogo {
                 int colunaDestinoInt = colunaDestino - 'a';
 
                 realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
-
             } else {
                 if (jogada.equals("parar")) {
                     estado = "inativo";
+                } else {
+                    System.out.println("Erro: a jogada deve conter exatamente 4 caracteres.");
                 }
-
-                System.out.println("Erro: a jogada deve conter exatamente 4 caracteres.");
             }
         }
 
