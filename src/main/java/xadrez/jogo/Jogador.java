@@ -17,10 +17,8 @@ import main.java.xadrez.tabuleiro.TabuleiroXadrez;
 public class Jogador {
     private String nome;
     private String cor;
-    private ArrayList<Peca> pecasAtivas;
     private ArrayList<Peca> pecasCapturadas;
     private boolean estaEmXeque;
-    private int numPecasAtivas;
     private int numPecasCapturadas;
 
     // Construtor da classe Jogador
@@ -28,9 +26,7 @@ public class Jogador {
         this.nome = nome;
         this.cor = cor;
         this.estaEmXeque = false;
-        this.pecasAtivas = new ArrayList<Peca>(16);
         this.pecasCapturadas = new ArrayList<Peca>(16);
-        this.numPecasAtivas = 0;
         this.numPecasCapturadas = 0;
     }
 
@@ -70,17 +66,6 @@ public class Jogador {
     // Adiciona uma peça capturada ao vetor de peças capturadas
     public void capturarPeca(Peca peca) {
         pecasCapturadas.add(peca);
-        pecasAtivas.remove(peca);
-    }
-
-    // Remove uma peça do vetor de peças ativas
-    public void removerPeca(Peca peca) {
-        pecasAtivas.remove(peca);
-    }
-
-    // Adiciona uma peça ao vetor de peças ativas
-    public void adicionarPeca(Peca peca) {
-        pecasAtivas.add(peca);
     }
 
     public String getNome() {
@@ -89,10 +74,6 @@ public class Jogador {
 
     public String getCor() {
         return cor;
-    }
-
-    public ArrayList<Peca> getPecasAtivas() {
-        return pecasAtivas;
     }
 
     public ArrayList<Peca> getPecasCapturadas() {

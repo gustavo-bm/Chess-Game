@@ -196,67 +196,69 @@ public class Gerenciador {
 
     private void rodarJogo() {
         Jogo jogo = new Jogo();
-    
-        // Antes de iniciar o jogo tradicionalmente, ver se o usuário quer carregar um jogo salvo
+
+        // Antes de iniciar o jogo tradicionalmente, ver se o usuário quer carregar um
+        // jogo salvo
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite 1 se quer começar um jogo do zero ou 2 se deseja carregar um jogo salvo.");
         int opcao = scanner.nextInt();
-    
+
         if (opcao == 1) {
             jogo.iniciarJogo();
-            if (jogo.getEstado().equals("inativo")) {
-                scanner.nextLine(); // Consumir a quebra de linha pendente do nextInt anterior
-                System.out.print("Informe o nome do arquivo que deseja recuperar: ");
-    
+            if (jogo.getJogoStatus().equals("inativo")) {
+                scanner.nextLine();
+                System.out.print("Informe o nome do arquivo para salvar o jogo: ");
+
                 try {
-                    String nomeCaminhoArquivo = scanner.nextLine();
-                    caminhoArquivo = nomeCaminhoArquivo;
-                    System.out.println(caminhoArquivo);
+                    caminhoArquivo = scanner.nextLine();
+                    salvarJogo(jogo.registroJogo());
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
         } else if (opcao == 2) {
-            scanner.nextLine(); // Consumir a quebra de linha pendente do nextInt anterior
-            System.out.println("Informe o nome do arquivo:");
+            scanner.nextLine(); // Consumir quebra de linha pendente do nextInt anterior
+            System.out.print("Informe o nome do arquivo que deseja recuperar: ");
             caminhoArquivo = scanner.nextLine();
-    
-            jogo.setEstado("inativo");
-    
+
+            jogo.setJogoStatus("inativo");
+
             String infoJogo = restaurarJogo();
-    
+
             // Separar as linhas do conteúdo do arquivo
             String[] linhas = infoJogo.split("\n");
-    
-            // Atribuir os nomes dos jogadores
-            String nomeJogadorBrancas = linhas[0];
-            String nomeJogadorPretas = linhas[1];
-    
+
+            String nomeJogadorBrancas = linhas[2].split("-")[1].trim();
+            String nomeJogadorPretas = linhas[3].split("-")[1].trim();
+
             // Configurar os jogadores
-            Jogador jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
-            Jogador jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
-    
-            // Começar da terceira linha para ler as jogadas
+            jogo.criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
+
+            // As jogadas começam a partir da quarta linha (índice 3)
             for (int i = 6; i < linhas.length; i++) {
                 String jogada = linhas[i];
-    
-                // Convertendo a jogada para linha e coluna
-                int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
-                char colunaOrigem = jogada.charAt(1);
-                int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
-                char colunaDestino = jogada.charAt(3);
-    
-                int colunaOrigemInt = colunaOrigem - 'a';
-                int colunaDestinoInt = colunaDestino - 'a';
-    
-                // Realizar a jogada
-                jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
+
+                if (jogada.length() == 4) {
+                    // Convertendo a jogada para linha e coluna
+                    int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
+                    char colunaOrigem = jogada.charAt(1);
+                    int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
+                    char colunaDestino = jogada.charAt(3);
+
+                    int colunaOrigemInt = colunaOrigem - 'a';
+                    int colunaDestinoInt = colunaDestino - 'a';
+
+                    System.out.println(jogada);
+                    jogo.realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt, jogada);
+                } else {
+                    System.out.println("Erro na leitura da jogada: " + jogada);
+                }
             }
-    
-            // Definir o estado do jogo como ativo e continuar as jogadas
-            jogo.setEstado("ativo");
+
+            jogo.setJogoStatus("ativo");
             jogo.iniciaJogadas(scanner);
         }
+
     }
 
     public void teste() {

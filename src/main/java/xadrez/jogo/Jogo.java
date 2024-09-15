@@ -51,23 +51,31 @@ public class Jogo {
     private Jogador jogadorPretas;
     private Jogador jogadorAtual;
     private Jogador vencedor;
+    private String jogoStatus;
     private String estado;
     private StringBuilder historicoJogadas;
-    private boolean ehXequeMate = false;
 
     public Jogo() {
         this.tabuleiro = new TabuleiroXadrez();
         this.casas = tabuleiro.getCasas();
-        this.estado = "ativo";
+        this.historicoJogadas = new StringBuilder();
+        this.estado = "inicio-jogo";
+        this.jogoStatus = "ativo";
         inicializarPecas();
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setJogoStatus(String jogoStatus) {
+        this.jogoStatus = jogoStatus;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getJogoStatus() {
+        return jogoStatus;
+    }
+
+    public void criaJogadores(String nomeJogadorBrancas, String nomeJogadorPretas) {
+        this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
+        this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
+        this.jogadorAtual = jogadorBrancas;
     }
 
     public void iniciarJogo() {
@@ -80,13 +88,9 @@ public class Jogo {
         System.out.print("Pretas: ");
         String nomeJogadorPretas = scanner.nextLine();
     
-        this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
-        this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
+        criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
     
-        // Brancas começam o jogo
-        this.jogadorAtual = jogadorBrancas;
-    
-        iniciaJogadas(scanner); // Passa o scanner para manter a leitura contínua
+        iniciaJogadas(scanner);
     }
     
 
@@ -151,7 +155,7 @@ public class Jogo {
         System.out.println("\nBom jogo!\n");
         desenhoJogoAtualizado();
     
-        while (estado.equals("ativo") && !ehXequeMate) {
+        while (jogoStatus.equals("ativo") && !estado.equals("xeque-mate")) {
             System.out.print("Vez das ");
             if (jogadorAtual.getCor().equals("WHITE")) {
                 System.out.println("brancas.");
@@ -159,37 +163,36 @@ public class Jogo {
                 System.out.println("pretas.");
             }
     
-            String jogada = jogadorAtual.informaJogada(scanner);
+            String movimento = jogadorAtual.informaJogada(scanner);
     
-            if (jogada.length() == 4) {
-                int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
-                char colunaOrigem = jogada.charAt(1);
-                int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;
-                char colunaDestino = jogada.charAt(3);
+            if (movimento.length() == 4) {
+                int linhaOrigem = Character.getNumericValue(movimento.charAt(0)) - 1;
+                char colunaOrigem = movimento.charAt(1);
+                int linhaDestino = Character.getNumericValue(movimento.charAt(2)) - 1;
+                char colunaDestino = movimento.charAt(3);
                 int colunaOrigemInt = colunaOrigem - 'a';
                 int colunaDestinoInt = colunaDestino - 'a';
     
-                realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt);
+                realizarJogada(linhaOrigem, colunaOrigemInt, linhaDestino, colunaDestinoInt, movimento);
             } else {
-                if (jogada.equals("parar")) {
-                    estado = "inativo";
-                    break; // Não fecha o scanner aqui
+                if (movimento.equals("parar")) {
+                    jogoStatus = "inativo";
+                    break;
                 } else {
                     System.out.println("Erro: a jogada deve conter exatamente 4 caracteres.");
                 }
             }
         }
     
-        if (ehXequeMate) {
-            estado = "finalizado";
+        if (estado.equals("xeque-mate")) {
             System.out.println("Xeque-mate!");
             System.out.println("Jogo acabou! Vencedor: " + vencedor.getCor() + "\nParabéns, " + vencedor.getNome());
         } else {
-            estado = "inativo";
+            jogoStatus = "inativo";
         }
     }    
 
-    public void realizarJogada(int linhaO, int colunaO, int linhaD, int colunaD) {
+    public void realizarJogada(int linhaO, int colunaO, int linhaD, int colunaD, String movimento) {
         Jogada jogada = new Jogada(casas[linhaO][colunaO], casas[linhaD][colunaD]);
         Jogador jogadorAdversario = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
 
@@ -227,7 +230,7 @@ public class Jogo {
 
                 // checar se é xeque mate
                 if (jogada.ehXequeMate(tabuleiro, jogadorAtual, jogadorAdversario, casas)) {
-                    ehXequeMate = true;
+                    estado = "xeque-mate";
                     vencedor = jogadorAtual;
                 } else {
                     System.out.println("Xeque!");
@@ -248,11 +251,12 @@ public class Jogo {
 
                 if (!jogadorAdversario.getEstaEmXeque()) {
                     System.out.println("Jogada realizada.");
+                    historicoJogadas.append(movimento + "\n");
                 }
 
                 jogadorAtual = (jogadorAtual == jogadorBrancas) ? jogadorPretas : jogadorBrancas;
 
-                if (estado.equals("ativo")) {
+                if (jogoStatus.equals("ativo")) {
                     desenhoJogoAtualizado();
                 }
             } else {
@@ -285,14 +289,8 @@ public class Jogo {
         System.out.println("====================================");
     }
 
-    // Retorna uma string com todos os dados relevantes do jogo para retomada
-    // posterior
     public String registroJogo() {
-        /*
-         * Retorna uma string que representa o estado atual do jogo, incluindo o
-         * histórico de jogadas.
-         */
-        return "Estado do jogo: " + this.estado + "\n\n" + jogadorBrancas.getNome() + " - Peças brancas\n"
-                + jogadorPretas.getNome() + " - Peças pretas\n\n" + "Histórico de jogadas:\n" + this.historicoJogadas;
+        return "Estado do jogo: " + this.estado + "\n\n" + jogadorBrancas.getNome() + " - Pecas brancas\n"
+                + jogadorPretas.getNome() + " - Pecas pretas\n\n" + "Historico de jogadas:\n" + this.historicoJogadas;
     }
 }
