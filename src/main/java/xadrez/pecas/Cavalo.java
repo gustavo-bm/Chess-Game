@@ -2,7 +2,6 @@ package main.java.xadrez.pecas;
 
 import main.java.xadrez.pecas.interfacePeca.Peca;
 
-// teste
 public class Cavalo extends Peca {
 
     public Cavalo(String cor) {

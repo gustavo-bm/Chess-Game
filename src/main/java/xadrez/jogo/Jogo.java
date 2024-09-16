@@ -42,27 +42,6 @@ public class Jogo {
     public String getJogoStatus() {
         return jogoStatus;
     }
-
-    public void criaJogadores(String nomeJogadorBrancas, String nomeJogadorPretas) {
-        this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
-        this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
-        this.jogadorAtual = jogadorBrancas;
-    }
-
-    public void iniciarJogo() {
-        Scanner scanner = new Scanner(System.in);
-    
-        System.out.println("Digite os nomes dos jogadores.\n");
-        System.out.print("Brancas: ");
-        String nomeJogadorBrancas = scanner.nextLine();
-    
-        System.out.print("Pretas: ");
-        String nomeJogadorPretas = scanner.nextLine();
-    
-        criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
-    
-       iniciaJogadas(scanner);
-    }
     
     private void inicializarPecas() {
         pecas = new Peca[32];
@@ -121,6 +100,27 @@ public class Jogo {
         }
     }
 
+    public void criaJogadores(String nomeJogadorBrancas, String nomeJogadorPretas) {
+        this.jogadorBrancas = new Jogador(nomeJogadorBrancas, "WHITE");
+        this.jogadorPretas = new Jogador(nomeJogadorPretas, "BLACK");
+        this.jogadorAtual = jogadorBrancas;
+    }
+
+    public void iniciarJogo() {
+        Scanner scanner = new Scanner(System.in);
+    
+        System.out.println("Digite os nomes dos jogadores.\n");
+        System.out.print("Brancas: ");
+        String nomeJogadorBrancas = scanner.nextLine();
+    
+        System.out.print("Pretas: ");
+        String nomeJogadorPretas = scanner.nextLine();
+    
+        criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
+    
+       iniciaJogadas(scanner);
+    }
+    
     public void iniciaJogadas(Scanner scanner) {
         System.out.println("\nBom jogo!\n");
         desenhoJogoAtualizado();

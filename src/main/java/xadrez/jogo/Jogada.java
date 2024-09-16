@@ -75,7 +75,7 @@ public class Jogada {
         return false;
     }
 
-    // Achar a posição do Rei do jogador
+    // acha a posição do Rei do jogador
     private Casa encontrarCasaRei(Jogador jogador, Casa[][] casas) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -88,16 +88,17 @@ public class Jogada {
                 }
             }
         }
+
         return null;
     }
 
-    // Verificar se uma peça pode capturar o Rei
+    // verifica se uma peça pode capturar o Rei
     private boolean podeCapturarRei(Jogador jogador, TabuleiroXadrez tabuleiro, Casa casaRei, Casa[][] casas) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Peca pecaAtual = casas[i][j].getPeca();
                 if (pecaAtual != null && pecaAtual.getCor().equals(jogador.getCor())) {
-                    // Verifica se a peça pode capturar o Rei
+                    // verifica se a peça pode capturar o Rei
                     if (ehCaptura(casaRei, jogador.getCor())
                             && caminhoEstaLivre(pecaAtual, casas[i][j], casaRei, tabuleiro)
                             && movimentoValidoParaPeca(pecaAtual, casas[i][j], casaRei, jogador.getCor())) {
@@ -106,6 +107,7 @@ public class Jogada {
                 }
             }
         }
+
         return false;
     }
 
@@ -153,18 +155,17 @@ public class Jogada {
             throw new IllegalStateException("O Rei do jogador adversário não foi encontrado.");
         }
 
-        // iterar sobre todas as peças do jogador atual
+        // itera sobre todas as peças do jogador atual
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Casa casaOrigem = casas[i][j];
                 Peca pecaAtual = casaOrigem.getPeca();
 
-                // Verifica se a peça pertence ao jogador adversario
+                // verifica se a peça pertence ao jogador adversario
                 if (pecaAtual != null && pecaAtual.getCor().equals(jogadorAdversario.getCor())) {
                     // simula todos os movimentos possíveis da peça, assumindo grosseiramente que,
-                    // se não podemos saber qual
-                    // é a peça, ela pode ser qualquer uma, e portanto pode alcançar qualquer casa
-                    // do tabuleiro
+                    // se não podemos saber qual é a peça, ela pode ser qualquer uma, e portanto pode 
+                    // alcançar qualquer casa do tabuleiro
                     for (int x = 0; x < 8; x++) {
                         for (int y = 0; y < 8; y++) {
                             Casa casaDestino = casas[x][y];
@@ -182,10 +183,10 @@ public class Jogada {
                                 casaDestino.colocarPeca(pecaAtual);
                                 casaOrigem.colocarPeca(null);
 
-                                // Verifica se o jogador sai do xeque
+                                // verifica se o jogador sai do xeque
                                 boolean saiuDoXeque = saiDoXeque(tabuleiro, jogadorAdversario, jogadorAtual);
 
-                                // Desfaz o movimento simulado
+                                // desfaz o movimento simulado
                                 casaOrigem.colocarPeca(pecaAtual);
                                 casaDestino.colocarPeca(pecaCapturada);
 
@@ -200,7 +201,7 @@ public class Jogada {
             }
         }
 
-        // Se nenhum movimento possível tira o jogador do xeque, é xeque-mate
+        // se nenhum movimento possível tira o jogador do xeque, é xeque-mate
         return true;
     }
 }

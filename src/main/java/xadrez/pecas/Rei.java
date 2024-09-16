@@ -9,10 +9,6 @@ public class Rei extends Peca {
         super(cor);
     }
 
-    public void setCasaRei() {
-
-    }
-
     @Override
     public String desenho() {
         if (cor.equals("BLACK")) {
@@ -24,8 +20,7 @@ public class Rei extends Peca {
 
     @Override
     public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        // Poderia fazer que a diferença das duas dimensoes deve ser menor ou igual a 1
-        // em absoluto
+        // Poderia fazer que a diferença das duas dimensoes deve ser menor ou igual a 1 em absoluto
         if ((linhaD == linhaO + 1) && colunaO == colunaD) {
             return 1;
         } else if ((linhaD == linhaO - 1) && colunaO == colunaD) {

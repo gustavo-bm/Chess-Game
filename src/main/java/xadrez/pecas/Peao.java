@@ -17,7 +17,7 @@ public class Peao extends Peca {
         }
     }
 
-    // Retorna 1 se o movimento for válido e para a frente, 2 se for para a diagonal e 0 se for inválido 
+    // retorna 1 se o movimento for válido e para a frente, 2 se for para a diagonal e 0 se for inválido 
     @Override
     public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
         int diferencaLinha = linhaD - linhaO;

@@ -19,15 +19,13 @@ public class Jogador {
     private String cor;
     private ArrayList<Peca> pecasCapturadas;
     private boolean estaEmXeque;
-    private int numPecasCapturadas;
 
     // Construtor da classe Jogador
     public Jogador(String nome, String cor) {
+        this.pecasCapturadas = new ArrayList<Peca>(16);
         this.nome = nome;
         this.cor = cor;
         this.estaEmXeque = false;
-        this.pecasCapturadas = new ArrayList<Peca>(16);
-        this.numPecasCapturadas = 0;
     }
 
     public void setEstaEmXeque(boolean xeque) {
@@ -38,7 +36,7 @@ public class Jogador {
         return estaEmXeque;
     }
 
-    // Solicita ao jogador a jogada desejada e retorna a informação
+    // solicita ao jogador a jogada desejada e retorna a informação
     public String informaJogada(Scanner scanner) {
         System.out.print("Informe a jogada: ");
         String jogada = scanner.nextLine();
@@ -46,7 +44,7 @@ public class Jogador {
         return jogada;
     }
 
-    // Retorna uma string com os desenhos das peças capturadas
+    // retorna uma string com os desenhos das peças capturadas
     public String pecasCapturadas() {
         StringBuilder resultado = new StringBuilder();
 
@@ -57,7 +55,7 @@ public class Jogador {
         return resultado.toString();
     }
 
-    // Adiciona uma peça capturada ao vetor de peças capturadas
+    // adiciona uma peça capturada ao vetor de peças capturadas
     public void capturarPeca(Peca peca) {
         pecasCapturadas.add(peca);
     }
@@ -68,9 +66,5 @@ public class Jogador {
 
     public String getCor() {
         return cor;
-    }
-
-    public ArrayList<Peca> getPecasCapturadas() {
-        return pecasCapturadas;
     }
 }

@@ -133,12 +133,10 @@ public class Gerenciador {
 
     }
 
+    // fazer o jogo funcionar de fato
     private void rodarJogo() {
         Jogo jogo = new Jogo();
         Arquivo arquivo = new Arquivo();
-
-        // Antes de iniciar o jogo tradicionalmente, ver se o usuário quer carregar um
-        // jogo salvo
         Scanner scanner = new Scanner(System.in);
 
         int opcao = -1;
@@ -154,6 +152,7 @@ public class Gerenciador {
 
         if (opcao == 1) {
             jogo.iniciarJogo();
+
             if (jogo.getJogoStatus().equals("inativo")) {
                 scanner.nextLine();
                 System.out.print("Informe o nome do arquivo para salvar o jogo: ");
@@ -167,30 +166,30 @@ public class Gerenciador {
                 }
             }
         } else if (opcao == 2) {
-            scanner.nextLine(); // Consumir quebra de linha pendente do nextInt anterior
+            scanner.nextLine();
             System.out.print("Informe o nome do arquivo que deseja recuperar: ");
             caminhoArquivo = scanner.nextLine();
-            arquivo.setCaminhoArquivo(caminhoArquivo);
 
+            arquivo.setCaminhoArquivo(caminhoArquivo);
             jogo.setJogoStatus("inativo");
 
             String infoJogo = arquivo.restaurarJogo();
 
-            // Separar as linhas do conteúdo do arquivo
+            // separar as linhas do conteúdo do arquivo
             String[] linhas = infoJogo.split("\n");
 
             String nomeJogadorBrancas = linhas[2].split("-")[1].trim();
             String nomeJogadorPretas = linhas[3].split("-")[1].trim();
 
-            // Configurar os jogadores
+            // configurar os jogadores
             jogo.criaJogadores(nomeJogadorBrancas, nomeJogadorPretas);
 
-            // As jogadas começam a partir da sétima linha (índice 6) no registro do jogo
+            // as jogadas começam a partir da sétima linha (índice 6) no registro do jogo
             for (int i = 6; i < linhas.length; i++) {
                 String jogada = linhas[i];
 
                 if (jogada.length() == 4) {
-                    // Convertendo a jogada para linha e coluna
+                    // convertendo a jogada para linha e coluna
                     int linhaOrigem = Character.getNumericValue(jogada.charAt(0)) - 1;
                     char colunaOrigem = jogada.charAt(1);
                     int linhaDestino = Character.getNumericValue(jogada.charAt(2)) - 1;

@@ -17,7 +17,6 @@ public class Torre extends Peca {
         }
     }
 
-    // mudar todos para protected talvez
     @Override
     public int movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
         return linhaO == linhaD || colunaO == colunaD ? 1 : 0;
